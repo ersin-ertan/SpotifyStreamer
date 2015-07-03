@@ -2,13 +2,14 @@ package com.nullcognition.spotifystreamer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.OnTextChanged;
@@ -42,7 +43,24 @@ public class MainActivityFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		listView = (ListView) rootView.findViewById(R.id.listView);
-		IntentServiceArtistSearch.searchByArtistName(getActivity(), "Paul");
+
+		((EditText) rootView.findViewById(R.id.editText)).addTextChangedListener(new TextWatcher(){
+			@Override
+			public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after){
+
+			}
+			@Override
+			public void onTextChanged(final CharSequence s, final int start, final int before, final int count){
+
+			}
+			@Override
+			public void afterTextChanged(final Editable s){
+				Toast.makeText(getActivity(), "text changed", Toast.LENGTH_SHORT).show();
+				IntentServiceArtistSearch.searchByArtistName(getActivity(), "Paul");
+
+
+			}
+		});
 		return rootView;
 	}
 
@@ -54,16 +72,7 @@ public class MainActivityFragment extends Fragment{
 
 	public void onEvent(ArtistListItemData artistListItemData){
 		if(artistListItemData != null){
-			setArrayAdapter(artistListItemData.getArrayOfArtistListItems());
+			listView.setAdapter(new ArtistArrayAdapter(getActivity(), artistListItemData.getArrayOfArtistListItems()));
 		}
 	}
-	private void setArrayAdapter(final ArrayList<ArtistListItem> arrayOfArtistListItems){
-		ArtistArrayAdapter artistArrayAdapter = new ArtistArrayAdapter(getActivity(), arrayOfArtistListItems);
-
-		listView.setAdapter(artistArrayAdapter);
-		artistArrayAdapter.notifyDataSetChanged();
-
-		// todo check why the getView in the artistarrayAdapter is not being called
-	}
-
 }
