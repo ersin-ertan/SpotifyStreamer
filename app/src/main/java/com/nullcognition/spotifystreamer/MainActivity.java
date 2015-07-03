@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -37,7 +36,9 @@ public class MainActivity extends AppCompatActivity{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		int id = item.getItemId();
-		if(id == R.id.action_settings){return true;}
+		if(id == R.id.action_settings){
+			return true;
+		}
 
 		return super.onOptionsItemSelected(item);
 	}
