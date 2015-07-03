@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import butterknife.Bind;
-import butterknife.OnTextChanged;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -20,14 +18,7 @@ import de.greenrobot.event.EventBus;
  */
 public class MainActivityFragment extends Fragment{
 
-	@Bind(R.id.editText)
-	EditText editText;
-	@OnTextChanged(R.id.editText)
-	void autoSearch(){
-		// first test functionality, then implement the wait for 2 seconds after text input done
-		// editText.getText(); is the correct argument)
-	}
-
+	View emptyView = null;
 
 	public MainActivityFragment(){
 	}
@@ -36,13 +27,18 @@ public class MainActivityFragment extends Fragment{
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this);
+//		setRetainInstance(true); // is this needed to save the results on rotation?
 	}
 
-	ListView listView = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-		listView = (ListView) rootView.findViewById(R.id.listView);
+		ListView listView = (ListView) rootView.findViewById(R.id.listView);
+//		if(emptyView == null){
+//			emptyView = ((ViewStub) rootView.findViewById(R.id.empty)).inflate();
+//		}
+//		listView.set; // todo  set empty view
 
 		((EditText) rootView.findViewById(R.id.editText)).addTextChangedListener(new TextWatcher(){
 			@Override
@@ -72,7 +68,15 @@ public class MainActivityFragment extends Fragment{
 
 	public void onEvent(ArtistListItemData artistListItemData){
 		if(artistListItemData != null){
-			listView.setAdapter(new ArtistArrayAdapter(getActivity(), artistListItemData.getArrayOfArtistListItems()));
+			ListView listView = (ListView) getActivity().findViewById(R.id.listView);
+			View header = LayoutInflater.from(getActivity()).inflate(R.layout.header_ad, null);
+			listView.addHeaderView(header);
+
+			ArtistArrayAdapter arrayAdapter = new ArtistArrayAdapter(getActivity(), artistListItemData.getArrayOfArtistListItems());
+			listView.setAdapter(arrayAdapter);
+//			arrayAdapter.notifyDataSetChanged(); // is this needed here
+
+//			if(emptyView != null){ emptyView.setVisibility(View.INVISIBLE); }
 		}
 	}
 }

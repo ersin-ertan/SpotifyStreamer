@@ -23,26 +23,42 @@ public class ArtistArrayAdapter extends ArrayAdapter<ArtistListItem>{
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
 
-		ArtistListItem artistListItem = getItem(position);
+		View rowView = convertView;
 		Context context = getContext();
-		View rootView = LayoutInflater.from(context).inflate(R.layout.search_list_item, parent, false);
 
-		TextView textView = (TextView) rootView.findViewById(R.id.textView);
-		textView.setText(artistListItem.getArtistName());
+		if(rowView == null){
+			View rootView = LayoutInflater.from(context).inflate(R.layout.search_list_item, parent, false);
+			ViewHolder viewHolder = new ViewHolder();
 
-		ImageView[] images = new ImageView[4];
-		images[0] = (ImageView) rootView.findViewById(R.id.imageView1);
-		images[1] = (ImageView) rootView.findViewById(R.id.imageView2);
-		images[2] = (ImageView) rootView.findViewById(R.id.imageView3);
-		images[3] = (ImageView) rootView.findViewById(R.id.imageView4);
+			viewHolder.textView = (TextView) rootView.findViewById(R.id.textView);
+
+			ImageView[] images = new ImageView[4];
+			images[0] = (ImageView) rootView.findViewById(R.id.imageView1);
+			images[1] = (ImageView) rootView.findViewById(R.id.imageView2);
+			images[2] = (ImageView) rootView.findViewById(R.id.imageView3);
+			images[3] = (ImageView) rootView.findViewById(R.id.imageView4);
+			viewHolder.imageViews = images;
+			if(rowView != null){
+				rowView.setTag(viewHolder);
+			}
+		}
+
+		ViewHolder viewHolder = (ViewHolder) rowView.getTag();
+		ArtistListItem artistListItem = getItem(position);
+
+		viewHolder.textView.setText(artistListItem.getArtistName());
 
 		ArrayList<Image> top4Images = artistListItem.getTop4Images();
-		Picasso.with(context).load(top4Images.get(0).url).into(images[0]);
-		// make the first image bigger than the rest
+		Picasso.with(context).load(top4Images.get(0).url).into(viewHolder.imageViews[0]);
+		// todo make the first image bigger than the rest
 		for(int i = 1; i < 4; i++){
-			Picasso.with(context).load(top4Images.get(i).url).into(images[i]);
-
+			Picasso.with(context).load(top4Images.get(i).url).into(viewHolder.imageViews[i]);
 		}
-		return rootView;
+		return rowView;
+	}
+
+	static class ViewHolder{
+		public ImageView[] imageViews;
+		public TextView textView;
 	}
 }

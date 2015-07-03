@@ -12,17 +12,33 @@
 	>
 
 	<EditText
-		android:layout_width = "match_parent"
-		android:layout_height = "wrap_content"
-		android:inputType = "textPersonName"
 		android:ems = "10"
-		android:id = "@+id/editText"
 		android:hint = "Artist Name Search"
+		android:id = "@+id/editText"
+		android:inputType = "textPersonName"
+		android:layout_height = "wrap_content"
+		android:layout_width = "match_parent"
 		/>
 
-	<ListView
+	<FrameLayout
+		android:layout_height = "match_parent"
 		android:layout_width = "match_parent"
-		android:layout_height = "wrap_content"
-		android:id = "@+id/listView"
-		/>
+		>
+
+		<ListView
+			android:id = "@+id/listView"
+			android:layout_height = "wrap_content"
+			android:layout_width = "match_parent"
+		    android:choiceMode="singleChoice"
+			/>
+
+		<ViewStub
+			android:id = "@+id/empty"
+			android:layout = "@layout/empty"
+			android:inflatedId="@+id/inflated"
+			android:layout_gravity = "center"
+			android:layout_height = "match_parent"
+			android:layout_width = "match_parent"
+			/>
+	</FrameLayout>
 </LinearLayout>
