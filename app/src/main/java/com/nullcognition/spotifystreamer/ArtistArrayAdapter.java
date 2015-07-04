@@ -62,7 +62,7 @@ public class ArtistArrayAdapter extends ArrayAdapter<ArtistListItem>{
 
 		int size = ali.getTop4Images().size();
 		// unfortunately the top four images are the same, thus the other 3 are not needed
-
+			// test
 		if(size == 0){
 			final int url = android.R.drawable.sym_def_app_icon;
 			Picasso.with(getContext())
