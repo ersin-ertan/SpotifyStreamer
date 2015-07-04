@@ -13,7 +13,7 @@
 
 	<EditText
 		android:ems = "10"
-		android:hint = "Artist Name Search"
+		android:hint = "@string/hint_artist_name_search"
 		android:id = "@+id/editText"
 		android:inputType = "textPersonName"
 		android:layout_height = "wrap_content"
@@ -26,19 +26,21 @@
 		>
 
 		<ListView
+			android:choiceMode = "singleChoice"
 			android:id = "@+id/listView"
 			android:layout_height = "match_parent"
 			android:layout_width = "match_parent"
-		    android:choiceMode="singleChoice"
+			android:overScrollHeader = "@color/accent_material_light"
 			/>
 
 		<ViewStub
 			android:id = "@+id/empty"
+			android:inflatedId = "@+id/inflated"
 			android:layout = "@layout/empty"
-			android:inflatedId="@+id/inflated"
 			android:layout_gravity = "center"
 			android:layout_height = "match_parent"
 			android:layout_width = "match_parent"
 			/>
 	</FrameLayout>
+
 </LinearLayout>

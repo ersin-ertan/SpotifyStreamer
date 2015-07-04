@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android = "http://schemas.android.com/apk/res/android"
-          android:layout_width = "match_parent"
-          android:layout_height = "match_parent" android:text = "Empty"
-          android:drawableTop = "@android:drawable/ic_menu_gallery"
-          android:gravity = "center|center_horizontal"
-    >
+<LinearLayout
+	android:layout_gravity = "center"
+	android:layout_height = "match_parent"
+	android:layout_width = "match_parent"
+	android:orientation = "vertical"
+	android:padding = "20dp"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
+	>
 
-</TextView>
+	<ImageView
+		android:layout_height = "0dp"
+		android:layout_width = "match_parent"
+		android:scaleType = "fitXY"
+		android:src = "@drawable/abc_btn_check_material"
+		android:layout_gravity = "center_horizontal"
+		android:layout_weight = "1"
+		android:contentDescription = "@string/contDescrip_emptyList"
+		/>
+
+	<TextView
+		android:gravity = "center"
+		android:layout_gravity = "center_horizontal"
+		android:layout_height = "0dp"
+		android:layout_marginTop = "8dp"
+		android:layout_width = "wrap_content"
+		android:text = "@string/empty"
+		android:textSize = "64sp"
+		android:textStyle = "bold"
+		android:layout_weight = "1"
+		/>
+</LinearLayout>
