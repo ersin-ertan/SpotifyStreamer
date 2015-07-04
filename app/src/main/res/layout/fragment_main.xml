@@ -9,6 +9,7 @@
 	tools:context = ".MainActivityFragment"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
+	android:background="@android:color/holo_green_light"
 	>
 
 	<EditText
@@ -30,7 +31,11 @@
 			android:id = "@+id/listView"
 			android:layout_height = "match_parent"
 			android:layout_width = "match_parent"
-			android:overScrollHeader = "@color/accent_material_light"
+			android:overScrollHeader = "@android:color/holo_green_dark"
+			android:divider = "#003d1b"
+			android:drawSelectorOnTop = "false"
+			android:headerDividersEnabled = "true"
+			android:dividerHeight = "1dp"
 			/>
 
 		<ViewStub
