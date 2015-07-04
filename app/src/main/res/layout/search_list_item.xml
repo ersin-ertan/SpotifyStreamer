@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+	android:id = "@+id/linLayout"
 	android:layout_height = "wrap_content"
 	android:layout_width = "match_parent"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	>
 
 	<RelativeLayout
-		android:layout_width = "0dp"
 		android:layout_height = "wrap_content"
 		android:layout_weight = "10"
+		android:layout_width = "0dp"
 		android:padding = "8dp"
 		>
 
 		<ImageView
 			android:contentDescription = "@string/artistImage01"
 			android:id = "@+id/imageView1"
-			android:layout_column = "0"
-			android:layout_height = "64dp"
-			android:layout_width = "64dp"
+			android:layout_alignParentLeft = "true"
+			android:layout_alignParentStart = "true"
+			android:layout_alignParentTop = "true"
+			android:layout_height = "@dimen/picture_spacer"
+			android:layout_width = "@dimen/picture_spacer"
 			android:src = "@android:drawable/btn_star_big_off"
-			android:layout_row = "0"
-			android:layout_alignParentTop = "true" android:layout_alignParentLeft = "true" android:layout_alignParentStart = "true"
-			android:elevation = "1dp"
 			/>
 
 		<ImageView
 			android:contentDescription = "@string/artistImage02"
 			android:id = "@+id/imageView2"
-			android:layout_column = "0"
-			android:layout_height = "64dp"
-			android:layout_width = "64dp"
+			android:layout_below = "@+id/imageView1"
+			android:layout_height = "@dimen/picture_spacer"
+			android:layout_toEndOf = "@+id/imageView1"
+			android:layout_toRightOf = "@+id/imageView1"
+			android:layout_width = "@dimen/picture_spacer"
 			android:src = "@android:drawable/btn_star_big_off"
-
-			android:layout_row = "1"
-			android:layout_rowWeight = "1"
-			android:layout_below = "@+id/imageView1" android:layout_toRightOf = "@+id/imageView1" android:layout_toEndOf = "@+id/imageView1"
+			android:visibility = "gone"
 			/>
 
 		<ImageView
 			android:contentDescription = "@string/artistImage03"
 			android:id = "@+id/imageView3"
-			android:layout_column = "1"
-			android:layout_height = "64dp"
-			android:layout_width = "64dp"
+			android:layout_alignTop = "@+id/imageView1"
+			android:layout_height = "@dimen/picture_spacer"
+			android:layout_toEndOf = "@+id/imageView1"
+			android:layout_toRightOf = "@+id/imageView1"
+			android:layout_width = "@dimen/picture_spacer"
 			android:src = "@android:drawable/btn_star_big_off"
-
-			android:layout_row = "0"
-			android:layout_alignTop = "@+id/imageView1" android:layout_toRightOf = "@+id/imageView1" android:layout_toEndOf = "@+id/imageView1"
+			android:visibility = "gone"
 			/>
 
 		<ImageView
 			android:contentDescription = "@string/artistImage04"
 			android:id = "@+id/imageView4"
-			android:layout_column = "1"
-			android:layout_height = "64dp"
-			android:layout_width = "64dp"
+			android:layout_alignLeft = "@+id/imageView1"
+			android:layout_alignStart = "@+id/imageView1"
+			android:layout_below = "@+id/imageView1"
+			android:layout_height = "@dimen/picture_spacer"
+			android:layout_width = "@dimen/picture_spacer"
 			android:src = "@android:drawable/btn_star_big_off"
-
-			android:layout_row = "1"
-			android:layout_rowWeight = "1"
-			android:layout_below = "@+id/imageView1" android:layout_alignLeft = "@+id/imageView1" android:layout_alignStart = "@+id/imageView1"
+			android:visibility = "gone"
 			/>
 	</RelativeLayout>
 
 	<TextView
-		android:gravity = "left|center"
+		android:gravity = "start|center"
 		android:id = "@+id/textView"
 		android:layout_gravity = "center_vertical"
 		android:layout_height = "match_parent"
