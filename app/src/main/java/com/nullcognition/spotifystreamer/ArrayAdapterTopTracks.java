@@ -2,7 +2,6 @@ package com.nullcognition.spotifystreamer;// Created by ersin on 05/07/15
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Track;
 
 public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
@@ -25,6 +23,7 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 	static class ViewHolder{
 		public ImageView imageView;
 		public TextView textView;
+		public TextView album;
 	}
 
 	@Override
@@ -39,6 +38,8 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 
 			viewHolder.imageView = (ImageView) rootView.findViewById(R.id.image_item_search_artist);
 			viewHolder.textView = (TextView) rootView.findViewById(R.id.text_item_search_artist);
+			viewHolder.album = (TextView) rootView.findViewById(R.id.text_item_tracks_album);
+			viewHolder.album.setVisibility(View.VISIBLE);
 
 			rootView.setTag(viewHolder);
 		}
@@ -48,8 +49,10 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 		Track track = getItem(position);
 
 		viewHolder.textView.setText(track.name);
+		viewHolder.album.setText(track.album.name);
 		Typeface font = Typeface.createFromAsset(getContext().getAssets(), context.getString(R.string.font_type));
 		viewHolder.textView.setTypeface(font);
+		viewHolder.album.setTypeface(font);
 
 		String imageUrl = null;
 		if(!track.album.images.isEmpty()){ imageUrl = track.album.images.get(0).url;}

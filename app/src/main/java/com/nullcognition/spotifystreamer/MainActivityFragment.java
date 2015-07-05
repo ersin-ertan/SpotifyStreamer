@@ -43,7 +43,6 @@ public class MainActivityFragment extends Fragment{
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		listView = (ListView) rootView.findViewById(R.id.listView);
 		TextView header = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.header_ad, container);
-
 		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), getActivity().getString(R.string.font_type));
 		header.setTypeface(font);
 
