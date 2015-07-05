@@ -24,7 +24,7 @@
 		android:layout_weight = "1"
 		android:layout_width = "match_parent"
 		android:text = "@string/empty"
-		android:textSize = "64sp"
+		android:textSize = "52sp"
 		android:textStyle = "bold"
 		android:textColor = "@android:color/background_light"
 		/>

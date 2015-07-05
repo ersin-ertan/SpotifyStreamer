@@ -29,7 +29,6 @@ public class MainActivityFragment extends Fragment{
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this);
-
 	}
 
 	ListView listView;
@@ -37,7 +36,6 @@ public class MainActivityFragment extends Fragment{
 	private static final String LAST_SEARCH = "lastSearch";
 	String lastSearch;
 	boolean isLastSearchSaveable = false;
-	public static final String NAME_ARTIST = "artistName";
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -55,11 +53,7 @@ public class MainActivityFragment extends Fragment{
 			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
 				Bundle bundle = new Bundle();
 				Artist item = (Artist) parent.getItemAtPosition(position);
-				bundle.putString(NAME_ARTIST, item.name);
-
-//				bundle.;
-
-
+				bundle.putString(IntentServiceArtistSearch.EXTRA_ARTIST_ID, item.id);
 				ArtistTop10Activity.startActivity(getActivity(), bundle);
 			}
 		});
