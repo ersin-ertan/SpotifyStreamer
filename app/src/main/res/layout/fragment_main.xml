@@ -1,4 +1,5 @@
 <LinearLayout
+	android:background = "@drawable/round_back"
 	android:layout_height = "match_parent"
 	android:layout_width = "match_parent"
 	android:orientation = "vertical"
@@ -9,33 +10,26 @@
 	tools:context = ".MainActivityFragment"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
-	android:background="@android:color/holo_green_light"
+
 	>
 
-	<EditText
-		android:ems = "10"
-		android:hint = "@string/hint_artist_name_search"
-		android:id = "@+id/editText"
-		android:inputType = "textPersonName"
-		android:layout_height = "wrap_content"
-		android:layout_width = "match_parent"
-		/>
-
 	<FrameLayout
-		android:layout_height = "match_parent"
+		android:layout_height = "0dp"
+		android:layout_weight = "9"
 		android:layout_width = "match_parent"
 		>
 
 		<ListView
 			android:choiceMode = "singleChoice"
+			android:divider = "@android:color/background_light"
+			android:dividerHeight = "1dp"
+			android:drawSelectorOnTop = "false"
+			android:headerDividersEnabled = "true"
 			android:id = "@+id/listView"
 			android:layout_height = "match_parent"
 			android:layout_width = "match_parent"
 			android:overScrollHeader = "@android:color/holo_green_dark"
-			android:divider = "#003d1b"
-			android:drawSelectorOnTop = "false"
-			android:headerDividersEnabled = "true"
-			android:dividerHeight = "1dp"
+			android:background = "@android:color/holo_green_dark"
 			/>
 
 		<ViewStub
@@ -47,5 +41,17 @@
 			android:layout_width = "match_parent"
 			/>
 	</FrameLayout>
+
+	<EditText
+		android:ems = "10"
+		android:hint = "@string/hint_artist_name_search"
+		android:id = "@+id/editText"
+		android:inputType = "textPersonName"
+		android:layout_height = "wrap_content"
+		android:gravity="center_horizontal"
+		android:layout_width = "match_parent"
+		android:textSize = "@dimen/text_item_search_artist"
+		android:background = "@android:color/holo_green_dark"
+		/>
 
 </LinearLayout>

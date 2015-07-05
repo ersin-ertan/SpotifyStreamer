@@ -7,10 +7,13 @@
 	<string name = "artistImage03">Artist Image 3</string>
 	<string name = "artistImage04">Artist Image 4</string>
 	<string name = "text_default">Large Text</string>
-	<string name = "hint_artist_name_search">Artist Name Search</string>
+	<string name = "hint_artist_name_search">Search Spotify</string>
 
 	<string name = "banner_ad">Banner Ad</string>
 	<string name = "banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-	<string name = "empty">Empty List</string>
+	<string name = "empty">No Results…</string>
 	<string name = "contDescrip_emptyList">Empty List</string>
+	<string name = "title_activity_artist_top10">ArtistTop10Activity</string>
+	<string name = "spotify">www.Spotify.com</string>
+	<string name = "font_type">proxima_nova_bold.otf</string>
 </resources>

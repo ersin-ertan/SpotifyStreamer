@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	android:layout_height = "wrap_content"
+	android:layout_width = "match_parent"
+	android:orientation = "horizontal"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
+
+	android:padding = "@dimen/spacer_item_search_artist"
+	android:paddingBottom = "@dimen/spacer_topbot_item_search_artist"
+	android:paddingTop = "@dimen/spacer_topbot_item_search_artist"
+
+	android:divider="@drawable/vertical_divider_1"
+	android:dividerPadding="12dip"
+	android:showDividers="middle"
+	>
+
+
+	<ImageView
+		android:layout_height = "128dp"
+		android:layout_width = "128dp"
+		android:src = "@android:drawable/btn_star"
+		android:id = "@+id/image_item_search_artist"
+		android:layout_gravity="left"
+		android:paddingRight="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+		android:paddingEnd = "@dimen/abc_action_bar_default_padding_material"
+		/>
+
+	<TextView
+		android:id = "@+id/text_item_search_artist"
+		android:layout_height = "match_parent"
+		android:layout_width = "0dp"
+		android:text = "@string/text_default"
+		android:layout_weight = "1"
+		android:gravity = "center"
+		android:textStyle = "bold"
+		android:textSize = "@dimen/text_item_search_artist"
+		android:textColor = "@android:color/black"
+		android:background = "@drawable/round_corner"
+		>
+
+	</TextView>
+
+</LinearLayout>

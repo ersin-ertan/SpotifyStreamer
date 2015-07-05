@@ -4,15 +4,9 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import de.greenrobot.event.EventBus;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.Image;
 
 public class IntentServiceArtistSearch extends IntentService{
 
@@ -26,14 +20,14 @@ public class IntentServiceArtistSearch extends IntentService{
 		context.startService(intent);
 	}
 
-	public IntentServiceArtistSearch(){
-		super("IntentServiceArtistSearch");
-	}
+	public IntentServiceArtistSearch(){ super("IntentServiceArtistSearch");}
 
 	@Override
 	protected void onHandleIntent(Intent intent){
 		if(intent != null){
 			final String action = intent.getAction();
+			initSpotify();
+
 			if(ACTION_SEARCH_ARTIST_NAME.equals(action)){
 				final String artistName = intent.getStringExtra(EXTRA_ARTIST_NAME);
 				searchByArtistName(artistName);
@@ -41,20 +35,22 @@ public class IntentServiceArtistSearch extends IntentService{
 		}
 	}
 
-	// Get the artists for the search and 4 images associated with them
 	private void searchByArtistName(String artistName){
-		SpotifyApi api = new SpotifyApi();
-		SpotifyService service = api.getService();
-
 		if(artistName != null){
-			ArtistsPager results = service.searchArtists(artistName);
-			HashMap<String, ArrayList<Image>> artistsAndImages = new HashMap<>();
+			EventBus.getDefault().post(spotifyService.searchArtists(artistName));
+		}
+	}
 
-			ArrayList<Artist> artists = (ArrayList<Artist>) results.artists.items;
+	private SpotifyApi spotifyApi;
+	private SpotifyService spotifyService;
 
-			for(Artist a : artists){
-				artistsAndImages.put(a.name, (ArrayList<Image>) a.images);
-			}
+	private void initSpotify(){
+		if(spotifyService == null){
+			spotifyApi = new SpotifyApi();
+			spotifyService = spotifyApi.getService();
+		}
+	}
+}
 
 //		HashMap<String, ArrayList<Image>> hm = new HashMap<>();
 //		ArrayList<Image> ar = new ArrayList<Image>();
@@ -69,9 +65,3 @@ public class IntentServiceArtistSearch extends IntentService{
 //		hm.put("test", ar);
 //		ArtistListItemData a = new ArtistListItemData(hm);
 //		EventBus.getDefault().post(a);
-
-			EventBus.getDefault().post(new ArtistListItemData(artistsAndImages));
-		}
-	}
-
-}

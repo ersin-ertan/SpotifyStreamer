@@ -62,13 +62,10 @@ public class ArtistArrayAdapter extends ArrayAdapter<ArtistListItem>{
 
 		int size = ali.getTop4Images().size();
 		// unfortunately the top four images are the same, thus the other 3 are not needed
-			// test
+		// test
 		if(size == 0){
 			final int url = android.R.drawable.sym_def_app_icon;
-			Picasso.with(getContext())
-			       .load(url)
-			       .fit()
-			       .into(viewHolder.imageViews[0], new Callback.EmptyCallback(){
+			Picasso.with(getContext()).load(url).fit().into(viewHolder.imageViews[0], new Callback.EmptyCallback(){
 				@Override
 				public void onSuccess(){
 					super.onSuccess();
@@ -119,8 +116,13 @@ public class ArtistArrayAdapter extends ArrayAdapter<ArtistListItem>{
 				});
 			}
 		}
+		return rootView;
+	}
 
-		// removed the other images from the view, needed if using custom adapter to display more than 1 image
+
+}
+
+// removed the other images from the view, needed if using custom adapter to display more than 1 image
 //		if(size > 0){
 //			final String url = ali.getTop4Images().get(0).url;
 //			for(int i = size; i < 4; i++){ // fill the empties with the first art
@@ -150,7 +152,3 @@ public class ArtistArrayAdapter extends ArrayAdapter<ArtistListItem>{
 //				);
 //			}
 //		}
-		return rootView;
-	}
-}
-

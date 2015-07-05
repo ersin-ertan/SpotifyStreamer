@@ -3,4 +3,7 @@
 	<dimen name = "activity_horizontal_margin">16dp</dimen>
 	<dimen name = "activity_vertical_margin">16dp</dimen>
 	<dimen name = "picture_spacer">128dp</dimen>
+	<dimen name = "spacer_item_search_artist">8dp</dimen>
+	<dimen name = "spacer_topbot_item_search_artist">4dp</dimen>
+	<dimen name = "text_item_search_artist">36sp</dimen>
 </resources>

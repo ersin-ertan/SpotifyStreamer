@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
+	android:gravity = "center"
 	android:layout_height = "match_parent"
 	android:layout_width = "match_parent"
 	android:orientation = "vertical"
+	android:text = "@string/spotify"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
-	android:text="Tried AdView here but laggy"
-	android:gravity = "center"
 	>
-
 
 
 </TextView>
