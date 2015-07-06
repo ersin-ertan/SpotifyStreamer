@@ -16,4 +16,5 @@
 	<string name = "title_activity_artist_top10">ArtistTop10Activity</string>
 	<string name = "spotify">www.Spotify.com</string>
 	<string name = "font_type">proxima_nova_bold.otf</string>
+	<string name = "title_activity_media_player">MediaPlayerActivity</string>
 </resources>

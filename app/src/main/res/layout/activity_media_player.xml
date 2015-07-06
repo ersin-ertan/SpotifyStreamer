@@ -1,0 +1,27 @@
+<LinearLayout
+	android:layout_height = "match_parent"
+	android:layout_width = "match_parent"
+	android:orientation = "vertical"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:background = "@drawable/round_back"
+	>
+
+	<android.support.v4.view.ViewPager
+		android:id = "@+id/pager"
+		android:layout_height = "0dp"
+		android:layout_width = "match_parent"
+		android:layout_weight = "10"
+		/>
+
+	<fragment
+		android:id = "@+id/fragment_media_controls"
+		android:layout_height = "0dp"
+		android:layout_width = "match_parent"
+		android:name = "com.nullcognition.spotifystreamer.MediaPlayerControlsFragment"
+		tools:layout = "@layout/fragment_media_player_controls"
+		android:layout_weight = "1"
+		/>
+
+</LinearLayout>
+

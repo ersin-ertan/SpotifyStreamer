@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+              android:layout_width = "match_parent"
+              android:layout_height = "wrap_content"
+    >
+
+    <ImageButton
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:id = "@+id/btn_media_previous"
+        android:layout_weight = "1"
+        android:src = "@android:drawable/ic_media_previous"
+        android:backgroundTint = "@android:color/holo_green_light"
+        />
+
+    <ImageButton
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:id = "@+id/btn_media_play_pause"
+        android:layout_gravity = "center_horizontal"
+        android:layout_weight = "1"
+        android:src = "@android:drawable/ic_media_play"
+        android:backgroundTint = "@android:color/holo_green_light"
+        />
+
+    <ImageButton
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:id = "@+id/btn_media_next"
+        android:layout_weight = "1"
+        android:src = "@android:drawable/ic_media_next"
+        android:backgroundTint = "@android:color/holo_green_light"
+        />
+</LinearLayout>

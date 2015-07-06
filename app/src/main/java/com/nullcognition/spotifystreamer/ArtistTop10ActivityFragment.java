@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -40,9 +41,18 @@ public class ArtistTop10ActivityFragment extends Fragment{
 
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		(rootView.findViewById(R.id.editText)).setVisibility(View.GONE);
-		listView = (ListView) rootView.findViewById(R.id.listView);
 		ViewStub stub = (ViewStub) rootView.findViewById(R.id.empty);
 		inflated = stub.inflate();
+		listView = (ListView) rootView.findViewById(R.id.listView);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+			@Override
+			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
+				Track item = (Track) parent.getItemAtPosition(position);
+				Bundle bundle = new Bundle();
+				// bundl.putList// todo ----------------------------------------------------------------------------------------
+				MediaPlayerActivity.startActivity(getActivity(), bundle);
+			}
+		});
 
 		return rootView;
 	}

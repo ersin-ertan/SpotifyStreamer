@@ -38,7 +38,15 @@
 				android:name = "android.support.PARENT_ACTIVITY"
 				android:value = "com.nullcognition.spotifystreamer.MainActivity"
 				/>
-
+		</activity>
+		<activity
+			android:label = "@string/title_activity_media_player"
+			android:name = ".MediaPlayerActivity"
+			>
+			<meta-data
+				android:name = "android.support.PARENT_ACTIVITY"
+				android:value = "com.nullcognition.spotifystreamer.ArtistTop10Activity"
+				/>
 		</activity>
 	</application>
 
