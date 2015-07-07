@@ -4,7 +4,8 @@
 	android:orientation = "vertical"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
-	android:background = "@drawable/round_back"
+	style = "@style/AppLight"
+
 	>
 
 	<android.support.v4.view.ViewPager
@@ -20,7 +21,7 @@
 		android:layout_width = "match_parent"
 		android:name = "com.nullcognition.spotifystreamer.MediaPlayerControlsFragment"
 		tools:layout = "@layout/fragment_media_player_controls"
-		android:layout_weight = "1"
+		android:layout_weight = "2"
 		/>
 
 </LinearLayout>

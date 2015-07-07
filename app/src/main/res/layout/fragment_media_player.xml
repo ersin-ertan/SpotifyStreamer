@@ -1,36 +1,75 @@
-<LinearLayout
+<FrameLayout
 	android:layout_height = "match_parent"
 	android:layout_width = "match_parent"
 	android:orientation = "vertical"
-	tools:context = "com.nullcognition.spotifystreamer.MediaPlayerActivityFragment"
-	xmlns:android = "http://schemas.android.com/apk/res/android" xmlns:tools = "http://schemas.android.com/tools"
-	android:background = "@drawable/round_corner"
+	tools:context = "com.nullcognition.spotifystreamer.MediaPlayerActivityFragment" xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:tools = "http://schemas.android.com/tools"
+	style = "@style/AppLight"
 	>
 
-	<TextView
-		android:layout_width = "wrap_content"
-		android:layout_height = "0dp"
-		android:textAppearance = "?android:attr/textAppearanceLarge"
-		android:text = "Large Text"
-		android:id = "@+id/txt_track_name"
-		android:layout_gravity = "center_horizontal"
-		android:layout_weight = "1"
-		/>
-
-	<TextView
-		android:layout_width = "wrap_content"
-		android:layout_height = "0dp"
-		android:text = "New Text"
-		android:id = "@+id/txt_tracks_album"
-		android:layout_gravity = "center_horizontal"
-		android:layout_weight = "1"
-		/>
-
 	<ImageView
-		android:layout_width = "match_parent"
-		android:layout_height = "0dp"
 		android:id = "@+id/image_album"
-		android:layout_weight = "15"
-		android:src = "@android:drawable/btn_star_big_off"
+		android:layout_height = "match_parent"
+		android:layout_width = "match_parent"
+		android:src = "@drawable/logo_spotify"
+		android:scaleType = "fitCenter"
 		/>
-</LinearLayout>
+
+	<RelativeLayout
+		android:layout_height = "match_parent"
+		android:layout_width = "match_parent"
+		>
+
+		<LinearLayout
+			android:layout_height = "wrap_content"
+			android:layout_width = "match_parent"
+			android:orientation = "vertical"
+			android:layout_alignParentBottom = "true" android:layout_alignParentLeft = "true" android:layout_alignParentStart = "true"
+			android:background = "@drawable/round_back_green_light_alpha"
+			>
+
+			<TextView
+				android:id = "@+id/txt_artist_name"
+				android:layout_height = "wrap_content"
+				android:layout_width = "wrap_content"
+				android:text = "Large Text"
+				android:textAppearance = "?android:attr/textAppearanceLarge"
+				android:textSize = "@dimen/text_item_search_artist"
+				android:layout_weight = "10"
+				/>
+
+			<TextView
+				android:layout_width = "wrap_content" android:layout_height = "wrap_content" android:textAppearance = "?android:attr/textAppearanceSmall" android:text = "01:34:16" android:id = "@+id/txt_track_duration" android:layout_weight = "1"
+				/>
+
+		</LinearLayout>
+
+	</RelativeLayout>
+
+	<LinearLayout
+		android:layout_height = "wrap_content"
+		android:layout_width = "match_parent"
+		android:orientation = "vertical"
+		android:layout_alignParentTop = "true" android:layout_alignParentLeft = "true" android:layout_alignParentStart = "true"
+		android:background = "@drawable/round_back_green_light_alpha"
+		>
+
+		<TextView
+			android:id = "@+id/txt_track_name"
+			android:layout_height = "wrap_content"
+			android:layout_width = "match_parent" android:text = "Large Text"
+			android:textAppearance = "?android:attr/textAppearanceLarge"
+			android:textSize = "@dimen/text_item_search_artist"
+			android:textStyle = "bold"
+			/>
+
+		<TextView
+			android:id = "@+id/txt_tracks_album"
+			android:layout_height = "wrap_content"
+			android:layout_width = "match_parent"
+			android:text = "New Text"
+			android:textAppearance = "?android:attr/textAppearanceLarge"
+			/>
+
+	</LinearLayout>
+</FrameLayout>

@@ -1,5 +1,4 @@
 <LinearLayout
-	android:background = "@drawable/round_back"
 	android:layout_height = "match_parent"
 	android:layout_width = "match_parent"
 	android:orientation = "vertical"
@@ -11,6 +10,7 @@
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
 
+	style = "@style/AppDarkStroke"
 	>
 
 	<FrameLayout
@@ -29,7 +29,8 @@
 			android:layout_height = "match_parent"
 			android:layout_width = "match_parent"
 			android:overScrollHeader = "@android:color/holo_green_dark"
-			android:background = "@android:color/holo_green_dark"
+			style = "@style/AppDark"
+
 			/>
 
 		<ViewStub
@@ -51,7 +52,8 @@
 		android:gravity="center_horizontal"
 		android:layout_width = "match_parent"
 		android:textSize = "@dimen/text_item_search_artist"
-		android:background = "@android:color/holo_green_dark"
+		style = "@style/AppDark"
+
 		/>
 
 </LinearLayout>

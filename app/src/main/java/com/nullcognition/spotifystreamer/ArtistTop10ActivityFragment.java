@@ -41,8 +41,11 @@ public class ArtistTop10ActivityFragment extends Fragment{
 
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		(rootView.findViewById(R.id.editText)).setVisibility(View.GONE);
+
 		ViewStub stub = (ViewStub) rootView.findViewById(R.id.empty);
 		inflated = stub.inflate();
+		inflated.setVisibility(View.INVISIBLE);
+
 		listView = (ListView) rootView.findViewById(R.id.listView);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			@Override
