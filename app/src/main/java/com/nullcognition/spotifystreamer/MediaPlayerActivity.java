@@ -4,8 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -52,56 +50,59 @@ public class MediaPlayerActivity extends FragmentActivity
 		pager.setAdapter(pagerAdapter);
 		pager.setPageTransformer(true, new ZoomOutPageTransformer());
 		pager.setCurrentItem(clickedPage);
+
+		mpcf = (MediaPlayerControlsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_media_controls);
+		mpcf.setTracks(tracks);
 		playClickedTrack(clickedPage);
 
-//		mpcf = (MediaPlayerControlsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_media_controls);
+		pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+			@Override
+			public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels){
+			}
+			@Override
+			public void onPageSelected(final int position){
+				currentTrack = position;
+				mpcf.switchTrack(position); // for touch slides
+
+			}
+			@Override
+			public void onPageScrollStateChanged(final int state){
+
+			}
+		});
+
 	}
 	private void playClickedTrack(final int clickedPage){
 
 		currentTrack = clickedPage;
-		if(mediaPlayer == null){
-			mediaPlayer = MediaPlayer.create(this, Uri.parse(tracks.tracks.get(currentTrack).preview_url));
+		mpcf.switchTrack(currentTrack);
 
-		}
-		else{
-		}
 //		doBindService();
 //		Intent intent = new Intent(this, SpotifyMusicService.class);
 //		startService(intent);
 
 	}
 
-	MediaPlayer mediaPlayer;
 
 	@Override
 	public void action(final int mediaControlAction){
 		switch(mediaControlAction){
 			case MediaPlayerControlsFragment.OnMediaControl.PLAY:
-				if(!mediaPlayer.isPlaying()){ mediaPlayer.start(); }
-				else{mediaPlayer.pause();}
-				// service.play
-				// hide playbutton
-
+				mpcf.mediaPlayerPlay();
 				break;
 			case MediaPlayerControlsFragment.OnMediaControl.NEXT:
-				if(pager.getCurrentItem() == NUM_PAGES - 1){
-				}
+				if(pager.getCurrentItem() == NUM_PAGES - 1){}
 				else{
-					// service.next
+//					mpcf.switchTrack(++currentTrack);
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
-					mediaPlayer.stop();
-					mediaPlayer = null;
-					mediaPlayer = MediaPlayer.create(this, Uri.parse(tracks.tracks.get(pager.getCurrentItem()).preview_url));
-					mediaPlayer.start();
 				}
 				break;
 			case MediaPlayerControlsFragment.OnMediaControl.PREV:
-				if(pager.getCurrentItem() == 0){
-
-				}
+				if(pager.getCurrentItem() == 0){ }
 				else{
-					// service.prev
+//					mpcf.switchTrack(--currentTrack);
 					pager.setCurrentItem(pager.getCurrentItem() - 1);
+
 				}
 				break;
 

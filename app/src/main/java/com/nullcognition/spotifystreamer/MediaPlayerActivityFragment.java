@@ -33,8 +33,7 @@ public class MediaPlayerActivityFragment extends Fragment{
 
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState){
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View rootView = inflater.inflate(R.layout.fragment_media_player, container, false);
 
 		TextView trackName = (TextView) rootView.findViewById(R.id.txt_track_name);
