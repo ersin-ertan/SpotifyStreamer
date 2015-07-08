@@ -1,11 +1,8 @@
 package com.nullcognition.spotifystreamer;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -13,7 +10,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Toast;
 
 import de.greenrobot.event.EventBus;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -28,7 +24,6 @@ public class MediaPlayerActivity extends FragmentActivity
 	private ViewPager pager;
 	private PagerAdapter pagerAdapter;
 	private MediaPlayerControlsFragment mpcf;
-	private int currentTrack = 0;
 
 	public static void startActivity(Context context, Bundle bundle){
 		Intent intent = new Intent(context, MediaPlayerActivity.class);
@@ -52,37 +47,23 @@ public class MediaPlayerActivity extends FragmentActivity
 		pager.setCurrentItem(clickedPage);
 
 		mpcf = (MediaPlayerControlsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_media_controls);
-		mpcf.setTracks(tracks);
 		playClickedTrack(clickedPage);
 
 		pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 			@Override
-			public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels){
-			}
+			public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels){}
 			@Override
 			public void onPageSelected(final int position){
-				currentTrack = position;
 				mpcf.switchTrack(position); // for touch slides
-
 			}
 			@Override
-			public void onPageScrollStateChanged(final int state){
-
-			}
+			public void onPageScrollStateChanged(final int state){}
 		});
-
 	}
+
 	private void playClickedTrack(final int clickedPage){
-
-		currentTrack = clickedPage;
-		mpcf.switchTrack(currentTrack);
-
-//		doBindService();
-//		Intent intent = new Intent(this, SpotifyMusicService.class);
-//		startService(intent);
-
+		mpcf.switchTrack(clickedPage);
 	}
-
 
 	@Override
 	public void action(final int mediaControlAction){
@@ -93,19 +74,16 @@ public class MediaPlayerActivity extends FragmentActivity
 			case MediaPlayerControlsFragment.OnMediaControl.NEXT:
 				if(pager.getCurrentItem() == NUM_PAGES - 1){}
 				else{
-//					mpcf.switchTrack(++currentTrack);
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
 				}
 				break;
 			case MediaPlayerControlsFragment.OnMediaControl.PREV:
 				if(pager.getCurrentItem() == 0){ }
 				else{
-//					mpcf.switchTrack(--currentTrack);
 					pager.setCurrentItem(pager.getCurrentItem() - 1);
 
 				}
 				break;
-
 		}
 	}
 
@@ -115,44 +93,6 @@ public class MediaPlayerActivity extends FragmentActivity
 			else{ tracks = top10Tracks;}
 		}
 	}
-
-	// -------------------------------------------------- Service Methods Start
-	private SpotifyMusicService boundService;
-	private boolean isBound = false;
-
-	private ServiceConnection mConnection = new ServiceConnection(){
-		public void onServiceConnected(ComponentName className, IBinder service){
-			boundService = ((SpotifyMusicService.LocalBinder) service).getService();
-
-			Toast.makeText(MediaPlayerActivity.this, "Connected", Toast.LENGTH_SHORT).show();
-		}
-
-		public void onServiceDisconnected(ComponentName className){
-			boundService = null;
-			Toast.makeText(MediaPlayerActivity.this, "DisConnected", Toast.LENGTH_SHORT).show();
-		}
-	};
-
-	void doBindService(){
-		bindService(new Intent(MediaPlayerActivity.this, SpotifyMusicService.class), mConnection, Context.BIND_AUTO_CREATE);
-		isBound = true;
-	}
-
-	void doUnbindService(){
-		if(isBound){
-			unbindService(mConnection);
-			isBound = false;
-		}
-	}
-
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
-		EventBus.getDefault().unregister(this);
-		doUnbindService();
-	}
-// -------------------------------------------------- Service Methods End
-
 
 	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
 		public ScreenSlidePagerAdapter(FragmentManager fm){ super(fm);}

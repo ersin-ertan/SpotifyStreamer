@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 
 import java.io.IOException;
 
+import de.greenrobot.event.EventBus;
 import kaaes.spotify.webapi.android.models.Tracks;
 
 /**
@@ -23,11 +24,11 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 	private static MediaPlayer mediaPlayer;
 	private Tracks tracks;
 
-
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		EventBus.getDefault().registerSticky(this);
 	}
 	public MediaPlayerControlsFragment(){
 	}
@@ -40,12 +41,20 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		catch(ClassCastException e){
 			throw new ClassCastException(activity.toString() + " must implement OnMediaControl");
 		}
+		tracks = EventBus.getDefault().getStickyEvent(Tracks.class);
 	}
+
+	@Override
+	public void onDestroy(){
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
+	}
+
+	public void onEvent(Tracks tracks){ this.tracks = tracks;}
 
 	ImageButton playPause;
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState){
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View rootView = inflater.inflate(R.layout.fragment_media_player_controls, container, false);
 
 		playPause = (ImageButton) rootView.findViewById(R.id.btn_media_play_pause);
@@ -53,17 +62,11 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		rootView.findViewById(R.id.btn_media_next).setOnClickListener(this);
 		rootView.findViewById(R.id.btn_media_previous).setOnClickListener(this);
 
-
 		return rootView;
 	}
 
-	private int currentTrack = 0;
-
 	public void switchTrack(int position){
-		currentTrack = position;
 		new SwitchSong().execute(tracks.tracks.get(position).preview_url);
-
-
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 				else{ playPause.setImageResource(android.R.drawable.ic_media_pause); }
 				break;
 			case R.id.btn_media_next:
-				action = OnMediaControl.NEXT;
+				action = OnMediaControl.NEXT; // if inter fragment control is needed
 				break;
 			case R.id.btn_media_previous:
 				action = OnMediaControl.PREV;
@@ -90,10 +93,6 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 	public void mediaPlayerPlay(){
 		if(!mediaPlayer.isPlaying()){ mediaPlayer.start(); }
 		else{mediaPlayer.pause();}
-
-	}
-	public void setTracks(final Tracks tracks){
-		this.tracks = tracks;
 	}
 
 	public interface OnMediaControl{
@@ -102,7 +101,6 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		int NEXT = 2;
 
 		void action(int mediaControlAction);
-
 	}
 
 	static class SwitchSong extends AsyncTask<String, Void, Void>{
@@ -123,8 +121,6 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 				e.printStackTrace();
 			}
 			mediaPlayer.start();
-
-
 			return null;
 		}
 	}
