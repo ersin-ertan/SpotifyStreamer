@@ -50,7 +50,10 @@ public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
 		viewHolder.textView.setTypeface(font);
 
 		String imageUrl = null;
-		if(!artist.images.isEmpty()){ imageUrl = artist.images.get(0).url;}
+		int imageListSize = artist.images.size();
+		if(!artist.images.isEmpty()){
+			imageUrl = artist.images.get(imageListSize - 1).url;
+		}
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;

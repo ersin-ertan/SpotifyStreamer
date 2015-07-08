@@ -2,17 +2,17 @@
 	android:layout_height = "match_parent"
 	android:layout_width = "match_parent"
 	android:orientation = "vertical"
-	tools:context = "com.nullcognition.spotifystreamer.MediaPlayerActivityFragment" xmlns:android = "http://schemas.android.com/apk/res/android"
+	style = "@style/AppLight" tools:context = "com.nullcognition.spotifystreamer.MediaPlayerActivityFragment"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
-	style = "@style/AppLight"
 	>
 
 	<ImageView
 		android:id = "@+id/image_album"
 		android:layout_height = "match_parent"
 		android:layout_width = "match_parent"
-		android:src = "@drawable/logo_spotify"
 		android:scaleType = "fitCenter"
+		android:src = "@drawable/logo_spotify"
 		/>
 
 	<RelativeLayout
@@ -21,25 +21,34 @@
 		>
 
 		<LinearLayout
+			android:background = "@drawable/round_back_green_light_alpha"
+			android:layout_alignParentBottom = "true"
+			android:layout_alignParentLeft = "true"
+			android:layout_alignParentStart = "true"
 			android:layout_height = "wrap_content"
 			android:layout_width = "match_parent"
 			android:orientation = "vertical"
-			android:layout_alignParentBottom = "true" android:layout_alignParentLeft = "true" android:layout_alignParentStart = "true"
-			android:background = "@drawable/round_back_green_light_alpha"
 			>
 
 			<TextView
 				android:id = "@+id/txt_artist_name"
 				android:layout_height = "wrap_content"
+				android:layout_weight = "10"
 				android:layout_width = "wrap_content"
 				android:text = "Large Text"
 				android:textAppearance = "?android:attr/textAppearanceLarge"
 				android:textSize = "@dimen/text_item_search_artist"
-				android:layout_weight = "10"
+				style = "@style/ShadowedText"
 				/>
 
 			<TextView
-				android:layout_width = "wrap_content" android:layout_height = "wrap_content" android:textAppearance = "?android:attr/textAppearanceSmall" android:text = "01:34:16" android:id = "@+id/txt_track_duration" android:layout_weight = "1"
+				android:id = "@+id/txt_track_duration"
+				android:layout_height = "wrap_content"
+				android:layout_weight = "1"
+				android:layout_width = "wrap_content"
+				android:text = "12:34:56"
+				android:textAppearance = "?android:attr/textAppearanceLarge"
+				style = "@style/ShadowedText"
 				/>
 
 		</LinearLayout>
@@ -47,20 +56,21 @@
 	</RelativeLayout>
 
 	<LinearLayout
+		android:background = "@drawable/round_back_green_light_alpha"
 		android:layout_height = "wrap_content"
 		android:layout_width = "match_parent"
 		android:orientation = "vertical"
-		android:layout_alignParentTop = "true" android:layout_alignParentLeft = "true" android:layout_alignParentStart = "true"
-		android:background = "@drawable/round_back_green_light_alpha"
 		>
 
 		<TextView
 			android:id = "@+id/txt_track_name"
 			android:layout_height = "wrap_content"
-			android:layout_width = "match_parent" android:text = "Large Text"
+			android:layout_width = "match_parent"
+			android:text = "Large Text"
 			android:textAppearance = "?android:attr/textAppearanceLarge"
 			android:textSize = "@dimen/text_item_search_artist"
 			android:textStyle = "bold"
+			style = "@style/ShadowedText"
 			/>
 
 		<TextView
@@ -69,6 +79,7 @@
 			android:layout_width = "match_parent"
 			android:text = "New Text"
 			android:textAppearance = "?android:attr/textAppearanceLarge"
+			style = "@style/ShadowedText"
 			/>
 
 	</LinearLayout>

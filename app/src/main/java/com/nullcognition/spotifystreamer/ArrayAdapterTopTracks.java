@@ -55,7 +55,10 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 		viewHolder.album.setTypeface(font);
 
 		String imageUrl = null;
-		if(!track.album.images.isEmpty()){ imageUrl = track.album.images.get(0).url;}
+		int imageListSize = track.album.images.size();
+		if(!track.album.images.isEmpty()){
+			imageUrl = track.album.images.get(imageListSize - 1).url; // spotify has the last image as the smallest, good for thumbnails
+		}
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;

@@ -25,7 +25,7 @@ public class ArtistTop10ActivityFragment extends Fragment{
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		EventBus.getDefault().register(this);
+		EventBus.getDefault().registerSticky(this);
 	}
 
 	public void getTopTracks(String artistId){
@@ -50,15 +50,17 @@ public class ArtistTop10ActivityFragment extends Fragment{
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			@Override
 			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
-				Track item = (Track) parent.getItemAtPosition(position);
 				Bundle bundle = new Bundle();
-				// bundl.putList// todo ----------------------------------------------------------------------------------------
+				bundle.putInt(MediaPlayerActivity.NUM_PAGES_KEY, numTracks);
+				bundle.putInt(MediaPlayerActivity.CLICKED_PAGE, position);
 				MediaPlayerActivity.startActivity(getActivity(), bundle);
 			}
 		});
 
 		return rootView;
 	}
+
+	int numTracks = 0;
 
 	public void onEventMainThread(Tracks top10Tracks){
 		if(top10Tracks != null){
@@ -72,12 +74,16 @@ public class ArtistTop10ActivityFragment extends Fragment{
 				if(inflated.getVisibility() != View.INVISIBLE){
 					inflated.setVisibility(View.INVISIBLE);
 				}
+				numTracks = top10Tracks.tracks.size();
 				populateListView(top10Tracks);
 			}
 		}
 	}
+
+	List<Track> trackList;
+
 	private void populateListView(final Tracks top10Tracks){
-		List<Track> trackList = top10Tracks.tracks;
+		trackList = top10Tracks.tracks;
 		ArrayAdapterTopTracks arrayadapterTopTracks = new ArrayAdapterTopTracks(getActivity(), trackList);
 		listView.setAdapter(arrayadapterTopTracks);
 	}

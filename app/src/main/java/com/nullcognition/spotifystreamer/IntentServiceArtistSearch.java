@@ -56,7 +56,7 @@ public class IntentServiceArtistSearch extends IntentService{
 		if(artistId != null){
 			HashMap<String, Object> countryCode = new HashMap<String, Object>();
 			countryCode.put("country", "CA");
-			EventBus.getDefault().post(spotifyService.getArtistTopTrack(artistId, countryCode));
+			EventBus.getDefault().postSticky(spotifyService.getArtistTopTrack(artistId, countryCode));
 		}
 	}
 
