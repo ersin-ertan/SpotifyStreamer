@@ -19,12 +19,6 @@ public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
 	public ArrayAdapterSearchArtist(final Context context, final List<Artist> resource){
 		super(context, 0, resource);
 	}
-
-	static class ViewHolder{
-		public ImageView imageView;
-		public TextView textView;
-	}
-
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
 
@@ -57,5 +51,10 @@ public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;
+	}
+
+	static class ViewHolder{
+		public ImageView imageView;
+		public TextView textView;
 	}
 }

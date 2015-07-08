@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape android:id = "@+id/round_corner"
-       xmlns:android = "http://schemas.android.com/apk/res/android"
+<shape
+	android:id = "@+id/round_corner"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
 	>
 	<stroke
 		android:color = "@android:color/holo_green_light" android:width = "8dp"

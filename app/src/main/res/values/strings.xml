@@ -17,4 +17,6 @@
 	<string name = "spotify">www.Spotify.com</string>
 	<string name = "font_type">proxima_nova_bold.otf</string>
 	<string name = "title_activity_media_player">MediaPlayerActivity</string>
+	<string name = "local_service_label">local service label</string>
+	<string name = "local_service_started">local service started</string>
 </resources>

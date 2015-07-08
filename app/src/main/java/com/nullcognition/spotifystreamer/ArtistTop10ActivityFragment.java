@@ -20,21 +20,16 @@ import kaaes.spotify.webapi.android.models.Tracks;
  */
 public class ArtistTop10ActivityFragment extends Fragment{
 
+	ListView listView;
+	View inflated;
+	int numTracks = 0;
+	List<Track> trackList;
 	public ArtistTop10ActivityFragment(){}
-
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().registerSticky(this);
 	}
-
-	public void getTopTracks(String artistId){
-		IntentServiceArtistSearch.searchArtistTop10(getActivity(), artistId);
-	}
-
-	ListView listView;
-	View inflated;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
@@ -59,9 +54,9 @@ public class ArtistTop10ActivityFragment extends Fragment{
 
 		return rootView;
 	}
-
-	int numTracks = 0;
-
+	public void getTopTracks(String artistId){
+		IntentServiceArtistSearch.searchArtistTop10(getActivity(), artistId);
+	}
 	public void onEventMainThread(Tracks top10Tracks){
 		if(top10Tracks != null){
 			if(top10Tracks.tracks.isEmpty()){
@@ -79,9 +74,6 @@ public class ArtistTop10ActivityFragment extends Fragment{
 			}
 		}
 	}
-
-	List<Track> trackList;
-
 	private void populateListView(final Tracks top10Tracks){
 		trackList = top10Tracks.tracks;
 		ArrayAdapterTopTracks arrayadapterTopTracks = new ArrayAdapterTopTracks(getActivity(), trackList);

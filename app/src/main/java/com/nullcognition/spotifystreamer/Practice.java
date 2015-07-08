@@ -143,18 +143,6 @@ class LooperThread extends Thread{
 }
 
 class Par implements Parcelable{
-	private int mData;
-
-	public int describeContents(){
-		return 0;
-	}
-
-	public void someMeth(){}
-
-	public void writeToParcel(Parcel out, int flags){
-		out.writeInt(mData);
-	}
-
 	public static final Parcelable.Creator<Par> CREATOR
 			= new Parcelable.Creator<Par>(){
 		public Par createFromParcel(Parcel in){
@@ -165,8 +153,16 @@ class Par implements Parcelable{
 			return new Par[size];
 		}
 	};
+	private int mData;
 
 	private Par(Parcel in){
 		mData = in.readInt();
 	}
+	public int describeContents(){
+		return 0;
+	}
+	public void writeToParcel(Parcel out, int flags){
+		out.writeInt(mData);
+	}
+	public void someMeth(){}
 }

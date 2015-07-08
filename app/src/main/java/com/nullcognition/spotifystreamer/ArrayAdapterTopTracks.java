@@ -19,13 +19,6 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 	public ArrayAdapterTopTracks(final Context context, final List<Track> trackList){
 		super(context, 0, trackList);
 	}
-
-	static class ViewHolder{
-		public ImageView imageView;
-		public TextView textView;
-		public TextView album;
-	}
-
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
 
@@ -62,6 +55,12 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;
+	}
+
+	static class ViewHolder{
+		public ImageView imageView;
+		public TextView textView;
+		public TextView album;
 	}
 
 }

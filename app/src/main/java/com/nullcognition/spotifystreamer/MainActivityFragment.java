@@ -23,20 +23,17 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 
 public class MainActivityFragment extends Fragment{
 
+	private static final String LAST_SEARCH = "lastSearch";
+	ListView listView;
+	View inflated;
+	String lastSearch;
+	boolean isLastSearchSaveable = false;
 	public MainActivityFragment(){ }
-
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this);
 	}
-
-	ListView listView;
-	View inflated;
-	private static final String LAST_SEARCH = "lastSearch";
-	String lastSearch;
-	boolean isLastSearchSaveable = false;
-
 	@Override
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -103,7 +100,14 @@ public class MainActivityFragment extends Fragment{
 			}
 		});
 	}
-
+	@Override
+	public void onViewStateRestored(final Bundle savedInstanceState){
+		super.onViewStateRestored(savedInstanceState);
+		if(savedInstanceState != null){
+			lastSearch = savedInstanceState.getString(LAST_SEARCH);
+			IntentServiceArtistSearch.searchByArtistName(getActivity(), lastSearch);
+		}
+	}
 	// saves the last entry in the view by default for orientation changes, below accounts for when
 	// the last search entry has been deleted from the search bar, which out the EditText check
 	// another search would have taken place preceding the default one from the config change
@@ -115,15 +119,6 @@ public class MainActivityFragment extends Fragment{
 		}
 		super.onSaveInstanceState(outState);
 
-	}
-
-	@Override
-	public void onViewStateRestored(final Bundle savedInstanceState){
-		super.onViewStateRestored(savedInstanceState);
-		if(savedInstanceState != null){
-			lastSearch = savedInstanceState.getString(LAST_SEARCH);
-			IntentServiceArtistSearch.searchByArtistName(getActivity(), lastSearch);
-		}
 	}
 	public void onEventMainThread(ArtistsPager artistsPager){
 		if(artistsPager != null){

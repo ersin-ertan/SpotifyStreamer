@@ -1,10 +1,13 @@
 package com.nullcognition.spotifystreamer;
 
-import android.app.Notification;
-import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +15,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Toast;
 
 import de.greenrobot.event.EventBus;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -22,12 +26,17 @@ public class MediaPlayerActivity extends FragmentActivity
 	public static final String NUM_PAGES_KEY = "numPages";
 	public static final String CLICKED_PAGE = "clickedPage";
 	private static int NUM_PAGES;
-
+	Tracks tracks;
 	private ViewPager pager;
 	private PagerAdapter pagerAdapter;
 	private MediaPlayerControlsFragment mpcf;
+	private int currentTrack = 0;
 
-
+	public static void startActivity(Context context, Bundle bundle){
+		Intent intent = new Intent(context, MediaPlayerActivity.class);
+		intent.putExtras(bundle);
+		context.startActivity(intent);
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -48,14 +57,28 @@ public class MediaPlayerActivity extends FragmentActivity
 //		mpcf = (MediaPlayerControlsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_media_controls);
 	}
 	private void playClickedTrack(final int clickedPage){
-		Intent intent = new Intent(this, SpotifyMusicService.class);
-		startService(intent);
+
+		currentTrack = clickedPage;
+		if(mediaPlayer == null){
+			mediaPlayer = MediaPlayer.create(this, Uri.parse(tracks.tracks.get(currentTrack).preview_url));
+
+		}
+		else{
+		}
+//		doBindService();
+//		Intent intent = new Intent(this, SpotifyMusicService.class);
+//		startService(intent);
+
 	}
+
+	MediaPlayer mediaPlayer;
 
 	@Override
 	public void action(final int mediaControlAction){
 		switch(mediaControlAction){
 			case MediaPlayerControlsFragment.OnMediaControl.PLAY:
+				if(!mediaPlayer.isPlaying()){ mediaPlayer.start(); }
+				else{mediaPlayer.pause();}
 				// service.play
 				// hide playbutton
 
@@ -66,6 +89,10 @@ public class MediaPlayerActivity extends FragmentActivity
 				else{
 					// service.next
 					pager.setCurrentItem(pager.getCurrentItem() + 1);
+					mediaPlayer.stop();
+					mediaPlayer = null;
+					mediaPlayer = MediaPlayer.create(this, Uri.parse(tracks.tracks.get(pager.getCurrentItem()).preview_url));
+					mediaPlayer.start();
 				}
 				break;
 			case MediaPlayerControlsFragment.OnMediaControl.PREV:
@@ -81,8 +108,6 @@ public class MediaPlayerActivity extends FragmentActivity
 		}
 	}
 
-	Tracks tracks;
-
 	public void onEventMainThread(Tracks top10Tracks){
 		if(top10Tracks != null){
 			if(top10Tracks.tracks.isEmpty()){ }
@@ -90,17 +115,43 @@ public class MediaPlayerActivity extends FragmentActivity
 		}
 	}
 
-	@Override
-	protected void onPause(){
-		super.onPause();
-		EventBus.getDefault().unregister(this);
+	// -------------------------------------------------- Service Methods Start
+	private SpotifyMusicService boundService;
+	private boolean isBound = false;
+
+	private ServiceConnection mConnection = new ServiceConnection(){
+		public void onServiceConnected(ComponentName className, IBinder service){
+			boundService = ((SpotifyMusicService.LocalBinder) service).getService();
+
+			Toast.makeText(MediaPlayerActivity.this, "Connected", Toast.LENGTH_SHORT).show();
+		}
+
+		public void onServiceDisconnected(ComponentName className){
+			boundService = null;
+			Toast.makeText(MediaPlayerActivity.this, "DisConnected", Toast.LENGTH_SHORT).show();
+		}
+	};
+
+	void doBindService(){
+		bindService(new Intent(MediaPlayerActivity.this, SpotifyMusicService.class), mConnection, Context.BIND_AUTO_CREATE);
+		isBound = true;
 	}
 
-	public static void startActivity(Context context, Bundle bundle){
-		Intent intent = new Intent(context, MediaPlayerActivity.class);
-		intent.putExtras(bundle);
-		context.startActivity(intent);
+	void doUnbindService(){
+		if(isBound){
+			unbindService(mConnection);
+			isBound = false;
+		}
 	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+		doUnbindService();
+	}
+// -------------------------------------------------- Service Methods End
+
 
 	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter{
 		public ScreenSlidePagerAdapter(FragmentManager fm){ super(fm);}

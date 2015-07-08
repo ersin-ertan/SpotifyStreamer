@@ -11,9 +11,20 @@ import android.view.ViewGroup;
  */
 public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
 
+	OnMediaControl onMediaControl;
+
 	public MediaPlayerControlsFragment(){
 	}
-
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		try{
+			onMediaControl = (OnMediaControl) activity;
+		}
+		catch(ClassCastException e){
+			throw new ClassCastException(activity.toString() + " must implement OnMediaControl");
+		}
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
@@ -25,19 +36,6 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 
 
 		return rootView;
-	}
-
-	OnMediaControl onMediaControl;
-
-	@Override
-	public void onAttach(Activity activity){
-		super.onAttach(activity);
-		try{
-			onMediaControl = (OnMediaControl) activity;
-		}
-		catch(ClassCastException e){
-			throw new ClassCastException(activity.toString() + " must implement OnMediaControl");
-		}
 	}
 	@Override
 	public void onClick(final View v){

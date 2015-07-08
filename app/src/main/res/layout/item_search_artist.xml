@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+	android:divider = "@drawable/vertical_divider_1"
+	android:dividerPadding = "12dip"
 	android:layout_height = "wrap_content"
 	android:layout_width = "match_parent"
-	android:orientation = "horizontal"
-	xmlns:android = "http://schemas.android.com/apk/res/android"
 
+	android:orientation = "horizontal"
 	android:padding = "@dimen/spacer_item_search_artist"
 	android:paddingBottom = "@dimen/spacer_topbot_item_search_artist"
-	android:paddingTop = "@dimen/spacer_topbot_item_search_artist"
 
-	android:divider="@drawable/vertical_divider_1"
-	android:dividerPadding="12dip"
-	android:showDividers="middle"
+	android:paddingTop = "@dimen/spacer_topbot_item_search_artist"
+	android:showDividers = "middle"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
 
 
 	>
 
 
 	<ImageView
+		android:id = "@+id/image_item_search_artist"
+		android:layout_gravity = "left"
 		android:layout_height = "128dp"
 		android:layout_width = "128dp"
-		android:src = "@android:drawable/btn_star"
-		android:id = "@+id/image_item_search_artist"
-		android:layout_gravity="left"
-		android:paddingRight="@dimen/abc_action_bar_subtitle_bottom_margin_material"
 		android:paddingEnd = "@dimen/abc_action_bar_default_padding_material"
+		android:paddingRight = "@dimen/abc_action_bar_subtitle_bottom_margin_material"
+		android:src = "@android:drawable/btn_star"
 		/>
 
 	<LinearLayout
-		android:orientation = "vertical"
-		android:layout_width = "match_parent"
 		android:layout_height = "match_parent"
+		android:layout_width = "match_parent"
+		android:orientation = "vertical"
 		style = "@style/AppLight"
 
 		>
 
 		<TextView
+			android:gravity = "center"
 			android:id = "@+id/text_item_search_artist"
+			android:layout_gravity = "center"
 			android:layout_height = "0dp"
+			android:layout_weight = "5"
 			android:layout_width = "match_parent"
 			android:text = "@string/text_default"
-			android:layout_weight = "5"
-			android:gravity = "center"
-			android:textStyle = "bold"
-			android:textSize = "@dimen/text_item_search_artist"
 			android:textColor = "@android:color/black"
-			android:layout_gravity = "center"
+			android:textSize = "@dimen/text_item_search_artist"
+			android:textStyle = "bold"
 			>
 
 		</TextView>
 
 		<TextView
-			android:layout_width = "wrap_content"
-			android:layout_height = "0dp"
 			android:id = "@+id/text_item_tracks_album"
 			android:layout_gravity = "center"
+			android:layout_height = "0dp"
 			android:layout_weight = "1"
+			android:layout_width = "wrap_content"
 			android:visibility = "gone"
 			/>
 	</LinearLayout>
