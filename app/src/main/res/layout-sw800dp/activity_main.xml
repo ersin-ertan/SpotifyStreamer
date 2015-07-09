@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:baselineAligned = "false"
+              android:divider = "?android:attr/dividerHorizontal"
+              android:layout_height = "match_parent"
+              android:layout_width = "match_parent"
+              android:orientation = "horizontal"
+              tools:context = "com.example.android.sunshine.app.MainActivity"
+              xmlns:android = "http://schemas.android.com/apk/res/android"
+              xmlns:tools = "http://schemas.android.com/tools"
+	>
+
+	<!--
+	This layout is a two-pane layout for the Items master/detail flow.
+	-->
+
+	<fragment
+		android:id = "@+id/fragment_main_tablet"
+		android:layout_height = "match_parent"
+		android:layout_weight = "3"
+		android:layout_width = "0dp"
+		android:name = "com.nullcognition.spotifystreamer.MainActivityFragment"
+		tools:layout = "@layout/fragment_main"
+		/>
+
+	<FrameLayout
+		android:id = "@+id/frame_detail_container"
+		android:layout_height = "match_parent"
+		android:layout_weight = "4"
+		android:layout_width = "0dp"
+		tools:layout = "@layout/activity_artist_top10"
+		/>
+
+</LinearLayout>

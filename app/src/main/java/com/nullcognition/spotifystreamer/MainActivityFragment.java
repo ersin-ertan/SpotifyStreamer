@@ -1,5 +1,6 @@
 package com.nullcognition.spotifystreamer;
 
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,25 @@ public class MainActivityFragment extends Fragment{
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().register(this);
 	}
+
+	interface MainFragToActivity{
+		void listItemClicked(String id);
+	}
+
+	MainFragToActivity mainFragToActivity;
+
+
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		try{
+			mainFragToActivity = (MainFragToActivity) activity;
+		}
+		catch(ClassCastException e){
+			throw new ClassCastException(activity.toString() + " must implement MainFrageToActivity");
+		}
+	}
+
 	@Override
 	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -47,10 +67,9 @@ public class MainActivityFragment extends Fragment{
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			@Override
 			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
-				Bundle bundle = new Bundle();
 				Artist item = (Artist) parent.getItemAtPosition(position);
-				bundle.putString(IntentServiceArtistSearch.EXTRA_ARTIST_ID, item.id);
-				ArtistTop10Activity.startActivity(getActivity(), bundle);
+				mainFragToActivity.listItemClicked(item.id);
+				// activity will start the next activity
 			}
 		});
 		// using AdView as header causes app to slow for list interactions

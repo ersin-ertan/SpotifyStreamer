@@ -60,6 +60,11 @@ public class ArtistTop10ActivityFragment extends Fragment{
 	public void onEventMainThread(Tracks top10Tracks){
 		if(top10Tracks != null){
 			if(top10Tracks.tracks.isEmpty()){
+				listView.setAdapter(null);
+				// added to clear the listview when you clicked on an artist with no tracks to display
+				// the previous artists selected tracks would still show, this is required in this
+				// fragment and not in main fragment because the list view is hidden behind inflated
+				// no results stub
 				if(inflated.getVisibility() != View.VISIBLE){
 					inflated.setVisibility(View.VISIBLE);
 				}
