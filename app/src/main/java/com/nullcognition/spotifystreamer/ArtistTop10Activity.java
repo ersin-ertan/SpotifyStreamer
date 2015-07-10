@@ -17,12 +17,12 @@ public class ArtistTop10Activity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_artist_top10);
 	}
+
 	@Override
-	protected void onStart(){
-		super.onStart();
+	protected void onResumeFragments(){
+		super.onResumeFragments();
 		ArtistTop10ActivityFragment fragment = (ArtistTop10ActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 		String artistId = getIntent().getStringExtra(IntentServiceArtistSearch.EXTRA_ARTIST_ID);
 		fragment.getTopTracks(artistId);
 	}
-
 }

@@ -44,18 +44,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig){
 		super.onConfigurationChanged(newConfig);
-		if(lastItemClickedId != null){
-			if(fragment == null){
-				fragment = (ArtistTop10ActivityFragment) getSupportFragmentManager().findFragmentByTag(TOP_TEN);
-			}
-			fragment.getTopTracks(lastItemClickedId);
-		}
+
 	}
 	@Override
 	protected void onResume(){
 		super.onResume();
 		if(twoPane){
 			fragment = (ArtistTop10ActivityFragment) getSupportFragmentManager().findFragmentByTag(TOP_TEN);
+			if(lastItemClickedId != null){fragment.getTopTracks(lastItemClickedId);}
 		}
 	}
 

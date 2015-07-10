@@ -24,7 +24,9 @@ public class ArtistTop10ActivityFragment extends Fragment{
 	View inflated;
 	int numTracks = 0;
 	List<Track> trackList;
+
 	public ArtistTop10ActivityFragment(){}
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -54,9 +56,14 @@ public class ArtistTop10ActivityFragment extends Fragment{
 
 		return rootView;
 	}
+
+	private static String lastArtistId;
+
 	public void getTopTracks(String artistId){
+		lastArtistId = artistId;
 		IntentServiceArtistSearch.searchArtistTop10(getActivity(), artistId);
 	}
+
 	public void onEventMainThread(Tracks top10Tracks){
 		if(top10Tracks != null){
 			if(top10Tracks.tracks.isEmpty()){
@@ -65,13 +72,13 @@ public class ArtistTop10ActivityFragment extends Fragment{
 				// the previous artists selected tracks would still show, this is required in this
 				// fragment and not in main fragment because the list view is hidden behind inflated
 				// no results stub
-				if(inflated.getVisibility() != View.VISIBLE){
+				if(inflated != null && inflated.getVisibility() != View.VISIBLE){
 					inflated.setVisibility(View.VISIBLE);
 				}
 
 			}
 			else{
-				if(inflated.getVisibility() != View.INVISIBLE){
+				if(inflated != null && inflated.getVisibility() != View.INVISIBLE){
 					inflated.setVisibility(View.INVISIBLE);
 				}
 				numTracks = top10Tracks.tracks.size();
@@ -80,8 +87,10 @@ public class ArtistTop10ActivityFragment extends Fragment{
 		}
 	}
 	private void populateListView(final Tracks top10Tracks){
-		trackList = top10Tracks.tracks;
-		ArrayAdapterTopTracks arrayadapterTopTracks = new ArrayAdapterTopTracks(getActivity(), trackList);
-		listView.setAdapter(arrayadapterTopTracks);
+		if(top10Tracks != null && listView != null){
+			trackList = top10Tracks.tracks;
+			ArrayAdapterTopTracks arrayadapterTopTracks = new ArrayAdapterTopTracks(getActivity(), trackList);
+			listView.setAdapter(arrayadapterTopTracks);
+		}
 	}
 }
