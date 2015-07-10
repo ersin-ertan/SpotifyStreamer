@@ -40,6 +40,7 @@ public class MainActivityFragment extends Fragment{
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().registerSticky(this);
+		setRetainInstance(true);
 	}
 
 	interface MainFragToActivity{
