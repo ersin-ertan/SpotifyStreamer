@@ -25,6 +25,10 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 public class MainActivityFragment extends Fragment{
 
 	private static final String LAST_SEARCH = "lastSearch";
+	private int selectedPosition = ListView.INVALID_POSITION;
+	private static final String SELECTED_KEY = "selected_position";
+
+
 	ListView listView;
 	View inflated;
 	String lastSearch;
@@ -67,6 +71,9 @@ public class MainActivityFragment extends Fragment{
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			@Override
 			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
+
+				selectedPosition = position;
+
 				Artist item = (Artist) parent.getItemAtPosition(position);
 				mainFragToActivity.listItemClicked(item.id);
 				// activity will start the next activity
@@ -78,7 +85,24 @@ public class MainActivityFragment extends Fragment{
 		inflated = stub.inflate();
 
 		initSearchTextWatcher(rootView);
+
+		if(savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
+			// The listview probably hasn't even been populated yet.  Actually perform the
+			// swapout in onLoadFinished.
+			selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
+		}
 		return rootView;
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		if(selectedPosition != ListView.INVALID_POSITION){
+			// If we don't need to restart the loader, and there's a desired position to restore
+			// to, do so now.
+			listView.smoothScrollToPosition(selectedPosition);
+		}
+
 	}
 	private void initSearchTextWatcher(final View rootView){
 		((EditText) rootView.findViewById(R.id.editText)).addTextChangedListener(new TextWatcher(){
@@ -135,6 +159,13 @@ public class MainActivityFragment extends Fragment{
 		if(isLastSearchSaveable &&
 				((EditText) getActivity().findViewById(R.id.editText)).getText().length() == 0){
 			outState.putString(LAST_SEARCH, lastSearch);
+		}
+
+		// When tablets rotate, the currently selected list item needs to be saved.
+		// When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+		// so check for that before storing.
+		if(selectedPosition != ListView.INVALID_POSITION){
+			outState.putInt(SELECTED_KEY, selectedPosition);
 		}
 		super.onSaveInstanceState(outState);
 
