@@ -25,19 +25,21 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 public class MainActivityFragment extends Fragment{
 
 	private static final String LAST_SEARCH = "lastSearch";
-	private int selectedPosition = ListView.INVALID_POSITION;
-	private static final String SELECTED_KEY = "selected_position";
-
-
-	ListView listView;
-	View inflated;
-	String lastSearch;
+	private String lastSearch;
 	boolean isLastSearchSaveable = false;
+
+	private static final String SELECTED_KEY = "selected_position";
+	private int selectedPosition = ListView.INVALID_POSITION;
+
+	private ListView listView;
+	private View inflated;
+
 	public MainActivityFragment(){ }
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		EventBus.getDefault().register(this);
+		EventBus.getDefault().registerSticky(this);
 	}
 
 	interface MainFragToActivity{
@@ -54,7 +56,7 @@ public class MainActivityFragment extends Fragment{
 			mainFragToActivity = (MainFragToActivity) activity;
 		}
 		catch(ClassCastException e){
-			throw new ClassCastException(activity.toString() + " must implement MainFrageToActivity");
+			throw new ClassCastException(activity.toString() + " must implement MainFragToActivity");
 		}
 	}
 
@@ -87,8 +89,6 @@ public class MainActivityFragment extends Fragment{
 		initSearchTextWatcher(rootView);
 
 		if(savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
-			// The listview probably hasn't even been populated yet.  Actually perform the
-			// swapout in onLoadFinished.
 			selectedPosition = savedInstanceState.getInt(SELECTED_KEY);
 		}
 		return rootView;
@@ -98,11 +98,8 @@ public class MainActivityFragment extends Fragment{
 	public void onResume(){
 		super.onResume();
 		if(selectedPosition != ListView.INVALID_POSITION){
-			// If we don't need to restart the loader, and there's a desired position to restore
-			// to, do so now.
 			listView.smoothScrollToPosition(selectedPosition);
 		}
-
 	}
 	private void initSearchTextWatcher(final View rootView){
 		((EditText) rootView.findViewById(R.id.editText)).addTextChangedListener(new TextWatcher(){
@@ -143,14 +140,7 @@ public class MainActivityFragment extends Fragment{
 			}
 		});
 	}
-	@Override
-	public void onViewStateRestored(final Bundle savedInstanceState){
-		super.onViewStateRestored(savedInstanceState);
-		if(savedInstanceState != null){
-			lastSearch = savedInstanceState.getString(LAST_SEARCH);
-			IntentServiceArtistSearch.searchByArtistName(getActivity(), lastSearch);
-		}
-	}
+
 	// saves the last entry in the view by default for orientation changes, below accounts for when
 	// the last search entry has been deleted from the search bar, which out the EditText check
 	// another search would have taken place preceding the default one from the config change
@@ -168,8 +158,17 @@ public class MainActivityFragment extends Fragment{
 			outState.putInt(SELECTED_KEY, selectedPosition);
 		}
 		super.onSaveInstanceState(outState);
-
 	}
+//
+//	@Override
+//	public void onViewStateRestored(final Bundle savedInstanceState){
+//		super.onViewStateRestored(savedInstanceState);
+//		if(savedInstanceState != null){
+//			lastSearch = savedInstanceState.getString(LAST_SEARCH);
+//			IntentServiceArtistSearch.searchByArtistName(getActivity(), lastSearch);
+//		}
+//	}
+
 	public void onEventMainThread(ArtistsPager artistsPager){
 		if(artistsPager != null){
 			if(artistsPager.artists.items.isEmpty()){
@@ -189,25 +188,17 @@ public class MainActivityFragment extends Fragment{
 	}
 
 	private void populateListView(final ArtistsPager artistsPager){
-		List<Artist> artistList = artistsPager.artists.items;
-		ArrayAdapterSearchArtist arrayAdapterSearchArtist = new ArrayAdapterSearchArtist(getActivity(), artistList);
-		listView.setAdapter(arrayAdapterSearchArtist);
-		if(listView.getAlpha() != 1){ listView.animate().alpha(1.0f).setDuration(1000); }
+		if(artistsPager != null && listView != null){
+			List<Artist> artistList = artistsPager.artists.items;
+			ArrayAdapterSearchArtist arrayAdapterSearchArtist = new ArrayAdapterSearchArtist(getActivity(), artistList);
+			listView.setAdapter(arrayAdapterSearchArtist);
+			if(listView.getAlpha() != 1){ listView.animate().alpha(1.0f).setDuration(1000); }
+		}
+	}
+
+	@Override
+	public void onDestroy(){
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
 	}
 }
-
-//	private void testAdapter(){
-//		HashMap<String, ArrayList<Image>> hm = new HashMap<>();
-//		ArrayList<Image> ar = new ArrayList<Image>();
-//		Image i = new Image();
-//		i.height = 64;
-//		i.width = 64;
-//		i.url = "http://people.mozilla.org/~faaborg/files/shiretoko/firefoxIcon/firefox-64-noshadow.png";
-//		ar.add(i);
-//		ar.add(i);
-//		ar.add(i);
-//		ar.add(i); // need 4
-//		hm.put("test", ar);
-//		ArtistListItemData a = new ArtistListItemData(hm);
-//		populateAdapter(a);
-//	}

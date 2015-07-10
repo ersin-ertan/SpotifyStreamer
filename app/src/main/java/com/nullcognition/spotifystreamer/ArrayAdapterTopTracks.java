@@ -1,4 +1,5 @@
-package com.nullcognition.spotifystreamer;// Created by ersin on 05/07/15
+package com.nullcognition.spotifystreamer;
+// Created by ersin on 05/07/15
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,9 +17,15 @@ import java.util.List;
 import kaaes.spotify.webapi.android.models.Track;
 
 public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
-	public ArrayAdapterTopTracks(final Context context, final List<Track> trackList){
-		super(context, 0, trackList);
+
+	static class ViewHolder{
+		public ImageView imageView;
+		public TextView textView;
+		public TextView album;
 	}
+
+	public ArrayAdapterTopTracks(final Context context, final List<Track> trackList){super(context, 0, trackList);}
+
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
 
@@ -43,24 +50,20 @@ public class ArrayAdapterTopTracks extends ArrayAdapter<Track>{
 
 		viewHolder.textView.setText(track.name);
 		viewHolder.album.setText(track.album.name);
+
 		Typeface font = Typeface.createFromAsset(getContext().getAssets(), context.getString(R.string.font_type));
 		viewHolder.textView.setTypeface(font);
 		viewHolder.album.setTypeface(font);
 
 		String imageUrl = null;
 		int imageListSize = track.album.images.size();
-		if(!track.album.images.isEmpty()){
-			imageUrl = track.album.images.get(imageListSize - 1).url; // spotify has the last image as the smallest, good for thumbnails
-		}
+		if(!track.album.images.isEmpty()){imageUrl = track.album.images.get(imageListSize - 1).url;}
+		// spotify has the last image as the smallest, good for thumbnails
+
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;
 	}
 
-	static class ViewHolder{
-		public ImageView imageView;
-		public TextView textView;
-		public TextView album;
-	}
 
 }

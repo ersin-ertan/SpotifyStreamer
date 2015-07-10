@@ -16,9 +16,14 @@ import java.util.List;
 import kaaes.spotify.webapi.android.models.Artist;
 
 public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
-	public ArrayAdapterSearchArtist(final Context context, final List<Artist> resource){
-		super(context, 0, resource);
+
+	static class ViewHolder{
+		public ImageView imageView;
+		public TextView textView;
 	}
+
+	public ArrayAdapterSearchArtist(final Context context, final List<Artist> resource){super(context, 0, resource);}
+
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
 
@@ -40,21 +45,16 @@ public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
 		Artist artist = getItem(position);
 
 		viewHolder.textView.setText(artist.name);
+
 		Typeface font = Typeface.createFromAsset(getContext().getAssets(), context.getString(R.string.font_type));
 		viewHolder.textView.setTypeface(font);
 
 		String imageUrl = null;
 		int imageListSize = artist.images.size();
-		if(!artist.images.isEmpty()){
-			imageUrl = artist.images.get(imageListSize - 1).url;
-		}
+		if(!artist.images.isEmpty()){ imageUrl = artist.images.get(imageListSize - 1).url;}
+
 		Picasso.with(getContext()).load(imageUrl).placeholder(R.drawable.logo_spotify).fit().into(viewHolder.imageView);
 
 		return rootView;
-	}
-
-	static class ViewHolder{
-		public ImageView imageView;
-		public TextView textView;
 	}
 }

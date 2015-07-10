@@ -57,7 +57,7 @@ public class IntentServiceArtistSearch extends IntentService{
 	}
 	private void searchByArtistName(String artistName){
 		if(artistName != null){
-			EventBus.getDefault().post(spotifyService.searchArtists(artistName));
+			EventBus.getDefault().postSticky(spotifyService.searchArtists(artistName));
 		}
 	}
 	private void initSpotify(){

@@ -1,6 +1,5 @@
 package com.nullcognition.spotifystreamer;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -8,6 +7,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
 	private boolean twoPane;
 	private static final String TOP_TEN = "topTen";
+	private static String lastItemClickedId = null;
+	private ArtistTop10ActivityFragment fragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -24,39 +25,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 		else{ twoPane = false;}
 	}
 
-	ArtistTop10ActivityFragment fragment;
-
-	@Override
-	protected void onStop(){
-		super.onStop();
-	}
-	@Override
-	public void onStart(){
-		super.onStart();
-		if(twoPane){
-			fragment = (ArtistTop10ActivityFragment) getSupportFragmentManager().findFragmentByTag(TOP_TEN);
-			// why are these null, because findFragmentById(R.id.fragment) was called instead of the dynamically added fragments tag
-			// id is for statically introduced fragments, tags are for dynamic, unless you can give each other a tag/id
-		}
-	}
-
-	private static String lastItemClickedId = null;
-	@Override
-	public void onConfigurationChanged(final Configuration newConfig){
-		super.onConfigurationChanged(newConfig);
-
-	}
 	@Override
 	protected void onResume(){
 		super.onResume();
 		if(twoPane){
 			fragment = (ArtistTop10ActivityFragment) getSupportFragmentManager().findFragmentByTag(TOP_TEN);
-			if(lastItemClickedId != null){fragment.getTopTracks(lastItemClickedId);}
 		}
 	}
 
-
-	@Override
 	public void listItemClicked(final String id){
 		if(twoPane){
 			lastItemClickedId = id;

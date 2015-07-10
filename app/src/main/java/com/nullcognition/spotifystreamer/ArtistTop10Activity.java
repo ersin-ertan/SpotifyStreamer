@@ -12,6 +12,7 @@ public class ArtistTop10Activity extends AppCompatActivity{
 		intent.putExtras(bundle);
 		context.startActivity(intent);
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
