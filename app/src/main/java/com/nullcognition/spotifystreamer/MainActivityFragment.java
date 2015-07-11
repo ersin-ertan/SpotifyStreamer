@@ -112,6 +112,7 @@ public class MainActivityFragment extends Fragment{
 			public void onTextChanged(final CharSequence s, final int start, final int before, final int count){ }
 			@Override
 			public void afterTextChanged(final Editable s){
+
 				if(s != null && !s.toString().equals("") && s.length() > 0){
 					if(listView.getAlpha() > 0.2f){
 						listView.animate().alpha(0.2f).setDuration(500);
@@ -120,11 +121,19 @@ public class MainActivityFragment extends Fragment{
 					latestPost = new Runnable(){
 						@Override
 						public void run(){
-							// s value could have changed to invalid input, check again
+							// s value could have changed to invalid input, check again)
 							if(!s.toString().equals("") && s.length() > 0){
-								listView.animate().alpha(0.0f).setDuration(50);
-								lastSearch = s.toString();
-								IntentServiceArtistSearch.searchByArtistName(getActivity(), s.toString());
+								if(lastSearch != null && lastSearch.equals(s.toString())){
+									ArtistsPager ap = EventBus.getDefault().getStickyEvent(ArtistsPager.class);
+									if(ap != null){
+										onEventMainThread(ap);
+									}
+								}
+								else{
+									listView.animate().alpha(0.0f).setDuration(50);
+									lastSearch = s.toString();
+									IntentServiceArtistSearch.searchByArtistName(getActivity(), s.toString());
+								}
 							}
 						}
 					};

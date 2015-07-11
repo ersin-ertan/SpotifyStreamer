@@ -3,12 +3,18 @@ package com.nullcognition.spotifystreamer;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
 import de.greenrobot.event.EventBus;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.Tracks;
 
 public class IntentServiceArtistSearch extends IntentService{
 
@@ -20,19 +26,24 @@ public class IntentServiceArtistSearch extends IntentService{
 
 	public IntentServiceArtistSearch(){ super("IntentServiceArtistSearch");}
 	public static void searchByArtistName(Context context, String artistName){
-		Intent intent = new Intent(context, IntentServiceArtistSearch.class);
-		intent.setAction(ACTION_SEARCH_ARTIST_NAME);
-		intent.putExtra(EXTRA_ARTIST_NAME, artistName);
-		context.startService(intent);
+		if(checkInternetConnectivity(context)){
+			Intent intent = new Intent(context, IntentServiceArtistSearch.class);
+			intent.setAction(ACTION_SEARCH_ARTIST_NAME);
+			intent.putExtra(EXTRA_ARTIST_NAME, artistName);
+			context.startService(intent);
+		}
 	}
 	public static void searchArtistTop10(Context context, String artistId){
-		Intent intent = new Intent(context, IntentServiceArtistSearch.class);
-		intent.setAction(ACTION_SEARCH_ARTIST_TOP_10);
-		intent.putExtra(EXTRA_ARTIST_ID, artistId);
-		context.startService(intent);
+		if(checkInternetConnectivity(context)){
+			Intent intent = new Intent(context, IntentServiceArtistSearch.class);
+			intent.setAction(ACTION_SEARCH_ARTIST_TOP_10);
+			intent.putExtra(EXTRA_ARTIST_ID, artistId);
+			context.startService(intent);
+		}
 	}
 	@Override
 	protected void onHandleIntent(Intent intent){
+
 		if(intent != null){
 			final String action = intent.getAction();
 			initSpotify();
@@ -48,16 +59,45 @@ public class IntentServiceArtistSearch extends IntentService{
 			}
 		}
 	}
+
+	private static boolean checkInternetConnectivity(Context context){
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+		if(!isConnected){
+			Toast.makeText(context, "Connect to the internet!", Toast.LENGTH_SHORT).show();
+		}
+
+		return isConnected;
+	}
 	private void searchArtistTop10(String artistId){
 		if(artistId != null){
 			HashMap<String, Object> countryCode = new HashMap<String, Object>();
 			countryCode.put("country", "CA");
-			EventBus.getDefault().postSticky(spotifyService.getArtistTopTrack(artistId, countryCode));
+			try{
+				Tracks tracks = spotifyService.getArtistTopTrack(artistId, countryCode);
+				if(tracks != null){
+					EventBus.getDefault().postSticky(tracks);
+				}
+			}
+			catch(Exception e){
+				Log.e("logErr", "Retrofit return error value from searchArtistTop10");
+			}
 		}
 	}
 	private void searchByArtistName(String artistName){
 		if(artistName != null){
-			EventBus.getDefault().postSticky(spotifyService.searchArtists(artistName));
+			try{
+				ArtistsPager ap = spotifyService.searchArtists(artistName);
+				if(ap != null){
+
+					EventBus.getDefault().postSticky(ap);
+				}
+			}
+			catch(Exception e){
+				Log.e("logErr", "Retrofit return error value from searchArtistName");
+			}
 		}
 	}
 	private void initSpotify(){
