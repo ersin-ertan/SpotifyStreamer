@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 	OnMediaControl onMediaControl;
 	private static MediaPlayer mediaPlayer;
 	private Tracks tracks;
+	private static boolean isLoading = true;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
@@ -76,10 +78,6 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		switch(viewId){
 			case R.id.btn_media_play_pause:
 				action = OnMediaControl.PLAY;
-				if(mediaPlayer.isPlaying()){
-					playPause.setImageResource(android.R.drawable.ic_media_play);
-				}
-				else{ playPause.setImageResource(android.R.drawable.ic_media_pause); }
 				break;
 			case R.id.btn_media_next:
 				action = OnMediaControl.NEXT; // if inter fragment control is needed
@@ -91,8 +89,19 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		onMediaControl.action(action);
 	}
 	public void mediaPlayerPlay(){
-		if(!mediaPlayer.isPlaying()){ mediaPlayer.start(); }
-		else{mediaPlayer.pause();}
+		if(isLoading){
+			Toast.makeText(getActivity(), "Song is loading", Toast.LENGTH_SHORT).show();
+		}
+		else{
+			if(!mediaPlayer.isPlaying()){
+				mediaPlayer.start();
+				playPause.setImageResource(android.R.drawable.ic_media_play);
+			}
+			else{
+				mediaPlayer.pause();
+				playPause.setImageResource(android.R.drawable.ic_media_pause);
+			}
+		}
 	}
 
 	public interface OnMediaControl{
@@ -103,10 +112,11 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 		void action(int mediaControlAction);
 	}
 
-	static class SwitchSong extends AsyncTask<String, Void, Void>{
+	static class SwitchSong extends AsyncTask<String, Void, Boolean>{
 
 		@Override
-		protected Void doInBackground(final String... params){
+		protected Boolean doInBackground(final String... params){
+			isLoading = true;
 			if(mediaPlayer == null){
 				mediaPlayer = new MediaPlayer();
 				mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -121,7 +131,14 @@ public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment
 				e.printStackTrace();
 			}
 			mediaPlayer.start();
-			return null;
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean aBoolean){
+			super.onPostExecute(aBoolean);
+			isLoading = false;
+
 		}
 	}
 }
