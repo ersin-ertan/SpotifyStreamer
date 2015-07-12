@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity
 	private static final String TOP_TEN = "topTen";
 	private static String lastItemClickedId = null;
 	private ArtistTop10ActivityFragment fragment;
+	// test commit
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
