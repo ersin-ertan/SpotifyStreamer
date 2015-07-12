@@ -3,9 +3,11 @@ package com.nullcognition.spotifystreamer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements MainActivityFragment.MainFragToActivity{
+public class MainActivity extends AppCompatActivity
+		implements MainActivityFragment.MainFragToActivity,
+		           ArtistTop10ActivityFragment.TwoPane{
 
-	private boolean twoPane;
+	public static boolean twoPane;
 	private static final String TOP_TEN = "topTen";
 	private static String lastItemClickedId = null;
 	private ArtistTop10ActivityFragment fragment;
@@ -44,5 +46,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 			bundle.putString(IntentServiceArtistSearch.EXTRA_ARTIST_ID, id);
 			ArtistTop10Activity.startActivity(this, bundle);
 		}
+	}
+
+	public void showD(int position){
+		DialogFrag dialogFrag = new DialogFrag();
+		DialogFrag.position = position;
+		dialogFrag.show(getSupportFragmentManager(), "DiaFrag");
+	}
+	@Override
+	public void itemClicked(int position){
+		showD(position);
 	}
 }

@@ -22,7 +22,7 @@ import kaaes.spotify.webapi.android.models.Tracks;
 public class MediaPlayerControlsFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
 
 	OnMediaControl onMediaControl;
-	private static MediaPlayer mediaPlayer;
+	public static MediaPlayer mediaPlayer;
 	private Tracks tracks;
 	private static boolean isLoading = true;
 

@@ -1,5 +1,6 @@
 package com.nullcognition.spotifystreamer;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.List;
@@ -51,14 +51,33 @@ public class ArtistTop10ActivityFragment extends Fragment{
 		return rootView;
 	}
 
+	@Override
+	public void onAttach(final Activity activity){
+		super.onAttach(activity);
+		if(MainActivity.twoPane){
+			twoPane = (TwoPane) activity;
+		}
+	}
+
+	interface TwoPane{
+		void itemClicked(final int position);
+	}
+
+	TwoPane twoPane;
+
 	private AdapterView.OnItemClickListener newOnItemClickListener(){
 		return new AdapterView.OnItemClickListener(){
 			@Override
 			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id){
-				Bundle bundle = new Bundle();
-				bundle.putInt(MediaPlayerActivity.NUM_PAGES_KEY, numTracks);
-				bundle.putInt(MediaPlayerActivity.CLICKED_PAGE, position);
-				MediaPlayerActivity.startActivity(getActivity(), bundle);
+				if(MainActivity.twoPane){
+					twoPane.itemClicked(position);
+				}
+				else{
+					Bundle bundle = new Bundle();
+					bundle.putInt(MediaPlayerActivity.NUM_PAGES_KEY, numTracks);
+					bundle.putInt(MediaPlayerActivity.CLICKED_PAGE, position);
+					MediaPlayerActivity.startActivity(getActivity(), bundle);
+				}
 			}
 		};
 	}
