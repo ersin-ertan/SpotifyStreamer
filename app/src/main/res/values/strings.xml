@@ -19,4 +19,8 @@
 	<string name = "title_activity_media_player">MediaPlayerActivity</string>
 	<string name = "local_service_label">local service label</string>
 	<string name = "local_service_started">local service started</string>
+	<string name = "title_item_list">Items</string>
+	<string name = "title_item_detail">Item Detail</string>
+
+
 </resources>

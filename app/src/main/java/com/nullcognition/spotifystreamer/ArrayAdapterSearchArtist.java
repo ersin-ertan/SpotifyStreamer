@@ -22,7 +22,11 @@ public class ArrayAdapterSearchArtist extends ArrayAdapter<Artist>{
 		public TextView textView;
 	}
 
-	public ArrayAdapterSearchArtist(final Context context, final List<Artist> resource){super(context, 0, resource);}
+	public ArrayAdapterSearchArtist(final Context context, final List<Artist> resource){
+		super(context, 0, resource);
+		Context c = context;
+		List<Artist> r = resource;
+	}
 
 	@Override
 	public View getView(final int position, final View convertView, final ViewGroup parent){
