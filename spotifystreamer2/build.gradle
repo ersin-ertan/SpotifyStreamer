@@ -1,6 +1,6 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-
 
 android{
 	compileSdkVersion 22
@@ -21,33 +21,18 @@ android{
 	}
 }
 
-repositories{
-	jcenter()
-	mavenCentral()
-	flatDir{
-		dirs 'libs'
-	}
-	maven{
-		url "https://jitpack.io"
-	}
-}
-
 dependencies{
 	compile fileTree(dir: 'libs', include: ['*.jar'])
-
-	compile(name: 'spotify-web-api-android-0.1.0', ext: 'aar')
-
-
-
-
 	compile 'com.android.support:appcompat-v7:22.2.0'
-	compile 'com.squareup.retrofit:retrofit:1.9.0'
-	compile 'com.squareup.okhttp:okhttp:2.4.0'
-	compile 'com.squareup.picasso:picasso:2.5.2'
-	compile 'de.greenrobot:eventbus:2.4.0'
 	compile 'com.android.support:support-v4:22.2.0'
 
-	compile 'com.github.frankiesardo:auto-parcel:0.3'
-	apt 'com.github.frankiesardo:auto-parcel-processor:0.3'
+	compile 'com.android.support:recyclerview-v7:22.2.0'
+	compile 'com.android.support:cardview-v7:22.2.0'
 
+	compile 'com.hannesdorfmann.fragmentargs:annotation:2.1.2'
+	apt 'com.hannesdorfmann.fragmentargs:processor:2.1.2'
+
+	compile 'com.hannesdorfmann.annotatedadapter:annotation:1.1.0'
+	compile 'com.hannesdorfmann.annotatedadapter:support-recyclerview:1.1.0'
+	apt 'com.hannesdorfmann.annotatedadapter:processor:1.1.0'
 }

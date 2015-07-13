@@ -1,8 +1,6 @@
 package com.nullcognition.spotifystreamer.refactoredArch;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
@@ -73,24 +71,15 @@ public class ItemListFragment extends ListFragment implements ContentViewSetter.
 		super.onCreate(savedInstanceState);
 		EventBus.getDefault().registerSticky(this);
 		isTablet = getArguments().getBoolean(ContentViewSetter.Resizeable.IS_TABLET);
-
-		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-		String lastS = sharedPref.getString("lastSearch", "defaultedValues");
-
-		if(lastS.equals("defaultedValues") || !lastS.equals("b")){
-			ContentViewSetter.searchByArtistName(getActivity(), "b");
+		ParcelListArtist p = null;
+		if(savedInstanceState != null){p = savedInstanceState.getParcelable("p");}
+		if(p != null){
+			artistList = p.artistList();
+			setListAdapter(new ArrayAdapterSearchArtist(getActivity(), artistList));
 		}
 		else{
-			ArtistsPager ap = EventBus.getDefault().getStickyEvent(ArtistsPager.class);
-			if(ap != null){
-				artistList = ap.artists.items;
-				FragmentActivity fa = getActivity();
-				if(fa != null){
-					setListAdapter(new ArrayAdapterSearchArtist(getActivity(), artistList));
-				}
-			}
+			ContentViewSetter.searchByArtistName(getActivity(), "a");
 		}
-
 	}
 
 	public void onEventMainThread(ArtistsPager artistsPager){
@@ -163,18 +152,19 @@ public class ItemListFragment extends ListFragment implements ContentViewSetter.
 	@Override
 	public void onPause(){
 		super.onPause();
-		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString("lastSearch", "b");
-		editor.commit();
 	}
 	@Override
 	public void onSaveInstanceState(Bundle outState){
-		super.onSaveInstanceState(outState);
 		if(mActivatedPosition != ListView.INVALID_POSITION){
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+
 		}
+		if(artistList != null){
+			outState.putParcelable("p", ParcelListArtist.create("p", artistList));
+		}
+		super.onSaveInstanceState(outState);
 	}
+
 
 	public void setActivateOnItemClick(boolean activateOnItemClick){
 		getListView().setChoiceMode(activateOnItemClick
@@ -195,10 +185,6 @@ public class ItemListFragment extends ListFragment implements ContentViewSetter.
 
 	@Override
 	public void onDestroy(){
-		SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.clear();
-		editor.commit();
 		super.onDestroy();
 	}
 }
