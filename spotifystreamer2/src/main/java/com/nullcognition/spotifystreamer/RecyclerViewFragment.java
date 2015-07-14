@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
@@ -16,7 +14,7 @@ import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import java.util.Arrays;
 
 public class RecyclerViewFragment extends Fragment
-		implements SampleAdapter.SL{
+		implements SampleAdapter.RecyclerItemViewClick{
 
 	public RecyclerViewFragment(){}
 
@@ -71,14 +69,11 @@ public class RecyclerViewFragment extends Fragment
 		}
 	}
 
-
-	//	@Override
-	public void onImageClick(final ImageView v){
-		Toast.makeText(getActivity(), "IMAGE", Toast.LENGTH_SHORT).show();
-	}
-
+	// support dialog does not work on build with annotation frag processor
 	@Override
-	public void p(final int p){
-		Toast.makeText(getActivity(), "at Position" + p, Toast.LENGTH_SHORT).show();
+	public void positionClicked(final int position){
+		FragmentDialog fragment = new FragmentDialogBuilder(position).build();
+		fragment.show(getActivity().getFragmentManager(), "t");
 	}
+
 }

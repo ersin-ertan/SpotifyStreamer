@@ -25,8 +25,11 @@ public class ArtistListActivity extends FragmentActivity
 	@Override
 	public void onItemSelected(String id){
 		if(mTwoPane){
-			Fragment fragment = new ArtistDetailFragmentBuilder(id).build();
+			Fragment fragment = new RecyclerViewFragmentBuilder(30).build();
 
+			// if was .add() then could not GC
+			// single screen ArtistDetailActivity only add()'s once, rotation does not add more
+			// must be taken care of by the FM
 			getSupportFragmentManager().beginTransaction()
 			                           .replace(R.id.artist_detail_container, fragment)
 			                           .commit();
@@ -37,5 +40,11 @@ public class ArtistListActivity extends FragmentActivity
 			detailIntent.putExtra(ArtistDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+
+	@Override
+	public void onBackPressed(){
+		getFragmentManager().popBackStack();
+//		super.onBackPressed();
 	}
 }

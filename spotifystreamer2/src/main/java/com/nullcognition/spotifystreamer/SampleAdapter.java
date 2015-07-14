@@ -19,7 +19,7 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 
 		public int position;
 		public void onClick(View v){
-			listener.p(position);
+			listener.positionClicked(position);
 		}
 	}
 
@@ -30,18 +30,15 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 					@ViewField(id = R.id.imageView, name = "image", type = ImageView.class)
 			},
 			fields = {
-					@Field(
-							type = SampleAdapter.MyClickListener.class,
-							name = "clickListener"
-					)
+					@Field(type = SampleAdapter.MyClickListener.class, name = "clickListener")
 			}
 	)
 	public final int rowWithPic = 0;
 
 	List<String> items;
-	static SampleAdapter.SL listener;
+	static RecyclerItemViewClick listener;
 
-	public SampleAdapter(Context context, List<String> items, SampleAdapter.SL inListener){
+	public SampleAdapter(Context context, List<String> items, RecyclerItemViewClick inListener){
 		super(context);
 		this.items = items;
 		listener = inListener;
@@ -66,7 +63,7 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 		vh.clickListener.position = position;
 	}
 
-	public interface SL{
-		void p(int p);
+	public interface RecyclerItemViewClick{
+		void positionClicked(int position);
 	}
 }
