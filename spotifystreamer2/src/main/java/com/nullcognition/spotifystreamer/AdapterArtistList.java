@@ -24,7 +24,7 @@ public class AdapterArtistList extends SupportAnnotatedAdapter
 	}
 
 	@ViewType(
-			layout = R.layout.row_with_pic,
+			layout = R.layout.recycler_item_image_text,
 			views = {
 					@ViewField(id = R.id.textView, name = "text", type = TextView.class),
 					@ViewField(id = R.id.imageView, name = "image", type = ImageView.class)

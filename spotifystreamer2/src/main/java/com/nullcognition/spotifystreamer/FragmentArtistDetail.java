@@ -14,41 +14,37 @@ import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 import java.util.Arrays;
 
-public class RecyclerViewFragment extends Fragment
-		implements SampleAdapter.RecyclerItemViewClick{
+public class FragmentArtistDetail extends Fragment
+		implements AdapterArtistDetail.RecyclerItemViewClick{
 
-	public RecyclerViewFragment(){}
+	public FragmentArtistDetail(){}
 
-	private static final String TAG = "RecyclerViewFragment";
+	private static final String TAG = "FragmentArtistDetail";
 
 	@Arg(required = false)
 	public int DATASET_COUNT = 60;
-	@Arg(required = true)
-	public boolean isDynamic = false;
 
 	protected RecyclerView recyclerView;
-	protected SampleAdapter adapter;
+	protected AdapterArtistDetail adapter;
 	protected String[] dataset;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		if(isDynamic){
 			FragmentArgs.inject(this);
-		}
 		initDataset();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
-		View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
+		View rootView = inflater.inflate(R.layout.recycler_view, container, false);
 		rootView.setTag(TAG);
 
 		recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 		setRecyclerViewLayoutManager();
 
-		adapter = new SampleAdapter(getActivity(), Arrays.asList(dataset), this);
+		adapter = new AdapterArtistDetail(getActivity(), Arrays.asList(dataset), this);
 		recyclerView.setAdapter(adapter);
 
 		return rootView;

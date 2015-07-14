@@ -2,12 +2,11 @@ package com.nullcognition.spotifystreamer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class ArtistDetailActivity extends AppCompatActivity{
+public class ActivityArtistDetail extends AppCompatActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -29,7 +28,7 @@ public class ArtistDetailActivity extends AppCompatActivity{
 	public boolean onOptionsItemSelected(MenuItem item){
 		int id = item.getItemId();
 		if(id == android.R.id.home){
-			NavUtils.navigateUpTo(this, new Intent(this, ArtistListActivity.class));
+			NavUtils.navigateUpTo(this, new Intent(this, ActivityArtistList.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

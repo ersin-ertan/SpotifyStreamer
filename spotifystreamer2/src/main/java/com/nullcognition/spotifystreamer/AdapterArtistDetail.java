@@ -12,8 +12,8 @@ import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotated
 
 import java.util.List;
 
-public class SampleAdapter extends SupportAnnotatedAdapter
-		implements SampleAdapterBinder{
+public class AdapterArtistDetail extends SupportAnnotatedAdapter
+		implements AdapterArtistDetailBinder{
 
 	static class MyClickListener implements View.OnClickListener{
 
@@ -24,13 +24,13 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 	}
 
 	@ViewType(
-			layout = R.layout.row_with_pic,
+			layout = R.layout.recycler_item_image_text,
 			views = {
 					@ViewField(id = R.id.textView, name = "text", type = TextView.class),
 					@ViewField(id = R.id.imageView, name = "image", type = ImageView.class)
 			},
 			fields = {
-					@Field(type = SampleAdapter.MyClickListener.class, name = "clickListener")
+					@Field(type = AdapterArtistDetail.MyClickListener.class, name = "clickListener")
 			}
 	)
 	public final int rowWithPic = 0;
@@ -38,7 +38,7 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 	List<String> items;
 	static RecyclerItemViewClick listener;
 
-	public SampleAdapter(Context context, List<String> items, RecyclerItemViewClick inListener){
+	public AdapterArtistDetail(Context context, List<String> items, RecyclerItemViewClick inListener){
 		super(context);
 		this.items = items;
 		listener = inListener;
@@ -52,13 +52,13 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 	public int getItemViewType(int position){ return rowWithPic;}
 
 	@Override
-	public void bindViewHolder(SampleAdapterHolders.RowWithPicViewHolder vh, int position){
+	public void bindViewHolder(AdapterArtistDetailHolders.RowWithPicViewHolder vh, int position){
 
 		String str = items.get(position);
 		vh.text.setText(str);
 		vh.image.setImageResource(R.drawable.abc_btn_rating_star_off_mtrl_alpha);
 
-		vh.clickListener = new MyClickListener();
+		vh.clickListener = new AdapterArtistDetail.MyClickListener();
 		vh.itemView.setOnClickListener(vh.clickListener);
 		vh.clickListener.position = position;
 	}

@@ -19,7 +19,7 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 
 	public FragmentArtistList(){}
 
-	private static final String TAG = "RecyclerViewFragment";
+	private static final String TAG = "FragmentArtistDetail";
 
 	@Arg(required = false) // will this allow static layout fragment generation
 	public int DATASET_COUNT = 30;
@@ -47,7 +47,7 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
-		View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
+		View rootView = inflater.inflate(R.layout.recycler_view, container, false);
 		rootView.setTag(TAG);
 
 		recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);

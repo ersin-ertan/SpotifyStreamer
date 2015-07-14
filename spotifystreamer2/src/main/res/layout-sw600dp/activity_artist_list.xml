@@ -7,7 +7,7 @@
 	android:layout_width = "match_parent"
 	android:orientation = "horizontal"
 	android:showDividers = "middle"
-	tools:context = "com.nullcognition.spotifystreamer.ArtistListActivity"
+	tools:context = "com.nullcognition.spotifystreamer.ActivityArtistList"
 	xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:tools = "http://schemas.android.com/tools"
 	>
@@ -19,7 +19,7 @@
 		android:layout_weight = "1"
 		android:layout_width = "0dp"
 		android:name = "com.nullcognition.spotifystreamer.FragmentArtistList"
-		tools:layout = "@layout/recycler_view_frag"
+		tools:layout = "@layout/recycler_view"
 		/>
 
 	<FrameLayout
