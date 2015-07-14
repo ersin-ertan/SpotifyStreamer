@@ -1,4 +1,4 @@
-package com.nullcognition.spotifystreamer;// Created by ersin on 13/07/15
+package com.nullcognition.spotifystreamer;// Created by ersin on 14/07/15
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,34 +8,39 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 import java.util.Arrays;
 
-public class RecyclerViewFragment extends Fragment
-		implements SampleAdapter.RecyclerItemViewClick{
+public class FragmentArtistList extends Fragment // is only ever in a static layout
+		implements AdapterArtistList.RecyclerItemViewClick{
 
-	public RecyclerViewFragment(){}
+	public FragmentArtistList(){}
 
 	private static final String TAG = "RecyclerViewFragment";
 
-	@Arg(required = false)
-	public int DATASET_COUNT = 60;
+	@Arg(required = false) // will this allow static layout fragment generation
+	public int DATASET_COUNT = 30;
+
 	@Arg(required = true)
-	public boolean isDynamic = false;
+	public String title;
+
 
 	protected RecyclerView recyclerView;
-	protected SampleAdapter adapter;
+	protected AdapterArtistList adapter;
 	protected String[] dataset;
+
+	private OnRecyclerViewItemClick listener;
+
+	public interface OnRecyclerViewItemClick{
+		void positionClicked(final int position);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		if(isDynamic){
-			FragmentArgs.inject(this);
-		}
 		initDataset();
 	}
 
@@ -48,16 +53,14 @@ public class RecyclerViewFragment extends Fragment
 		recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 		setRecyclerViewLayoutManager();
 
-		adapter = new SampleAdapter(getActivity(), Arrays.asList(dataset), this);
+		adapter = new AdapterArtistList(getActivity(), Arrays.asList(dataset), this);
 		recyclerView.setAdapter(adapter);
+
+		Toast.makeText(getActivity(), "" + title, Toast.LENGTH_SHORT).show();
 
 		return rootView;
 	}
 
-	@Override
-	public void onAttach(final Activity activity){
-		super.onAttach(activity);
-	}
 
 	public void setRecyclerViewLayoutManager(){
 		int scrollPosition = 0;
@@ -79,9 +82,25 @@ public class RecyclerViewFragment extends Fragment
 	}
 
 	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+
+		if(!(activity instanceof OnRecyclerViewItemClick)){
+			throw new IllegalStateException("Activity must implement fragment's callbacks.");
+		}
+
+		listener = (OnRecyclerViewItemClick) activity;
+	}
+
+	@Override
+	public void onDetach(){
+		listener = null;
+		super.onDetach();
+	}
+
+	@Override
 	public void positionClicked(final int position){
-		FragmentDialog fragment = new FragmentDialogBuilder(position).build();
-		fragment.show(getActivity().getFragmentManager(), "t");
+		listener.positionClicked(position);
 	}
 
 }

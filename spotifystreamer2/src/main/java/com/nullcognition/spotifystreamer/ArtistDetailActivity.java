@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class ArtistDetailActivity extends AppCompatActivity{
 
@@ -18,21 +16,13 @@ public class ArtistDetailActivity extends AppCompatActivity{
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		if(savedInstanceState == null){
-			String itemId = getIntent().getStringExtra(ArtistDetailFragment.ARG_ITEM_ID);
-
-//			Fragment fragment = new ArtistDetailFragmentBuilder(itemId).build();
+//		if(savedInstanceState == null){
+//			Fragment fragment = new RecyclerViewFragmentBuilder(60).build();
 //
 //			getSupportFragmentManager().beginTransaction()
 //			                           .add(R.id.artist_detail_container, fragment)
 //			                           .commit();
-//
-			Fragment fragment = new RecyclerViewFragmentBuilder(60).build();
-
-			getSupportFragmentManager().beginTransaction()
-			                           .add(R.id.artist_detail_container, fragment)
-			                           .commit();
-		}
+//		}
 	}
 
 	@Override
