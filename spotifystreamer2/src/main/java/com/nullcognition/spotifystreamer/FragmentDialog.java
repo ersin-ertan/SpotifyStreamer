@@ -11,22 +11,13 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 public class FragmentDialog extends DialogFragment{
-		@Arg
+	@Arg
 	public int num; // must be public
 	public FragmentDialog(){}
-//	public static FragmentDialog newInstance(int in){
-//
-//		Bundle args = new Bundle();
-//		args.putInt("t", in);
-//		FragmentDialog fragment = new FragmentDialog();
-//		fragment.setArguments(args);
-//		return fragment;
-//	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-	//	num = getArguments().getInt("t");
 		FragmentArgs.inject(this);
 	}
 

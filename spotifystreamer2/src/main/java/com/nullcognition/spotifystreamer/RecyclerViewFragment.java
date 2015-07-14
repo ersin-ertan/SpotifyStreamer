@@ -50,6 +50,8 @@ public class RecyclerViewFragment extends Fragment
 		return rootView;
 	}
 
+
+
 	public void setRecyclerViewLayoutManager(){
 		int scrollPosition = 0;
 
@@ -69,7 +71,6 @@ public class RecyclerViewFragment extends Fragment
 		}
 	}
 
-	// support dialog does not work on build with annotation frag processor
 	@Override
 	public void positionClicked(final int position){
 		FragmentDialog fragment = new FragmentDialogBuilder(position).build();
