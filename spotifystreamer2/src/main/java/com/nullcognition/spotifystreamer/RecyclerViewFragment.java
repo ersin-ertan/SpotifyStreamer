@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
@@ -17,7 +16,7 @@ import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import java.util.Arrays;
 
 public class RecyclerViewFragment extends Fragment
-		implements SampleAdapter.OnClickListener{
+		implements SampleAdapter.SL{
 
 	public RecyclerViewFragment(){}
 
@@ -73,14 +72,13 @@ public class RecyclerViewFragment extends Fragment
 	}
 
 
-	@Override
+	//	@Override
 	public void onImageClick(final ImageView v){
 		Toast.makeText(getActivity(), "IMAGE", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
-	public void onTextClick(final TextView v){
-		Toast.makeText(getActivity(), "TEXT", Toast.LENGTH_SHORT).show();
-
+	public void p(final int p){
+		Toast.makeText(getActivity(), "at Position" + p, Toast.LENGTH_SHORT).show();
 	}
 }

@@ -13,7 +13,15 @@ import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotated
 import java.util.List;
 
 public class SampleAdapter extends SupportAnnotatedAdapter
-		implements SampleAdapterBinder, View.OnClickListener{
+		implements SampleAdapterBinder{
+
+	static class MyClickListener implements View.OnClickListener{
+
+		public int position;
+		public void onClick(View v){
+			listener.p(position);
+		}
+	}
 
 	@ViewType(
 			layout = R.layout.row_with_pic,
@@ -23,7 +31,7 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 			},
 			fields = {
 					@Field(
-							type = SampleAdapter.OnClickListener.class,
+							type = SampleAdapter.MyClickListener.class,
 							name = "clickListener"
 					)
 			}
@@ -31,18 +39,18 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 	public final int rowWithPic = 0;
 
 	List<String> items;
-	SampleAdapter.OnClickListener listener;
+	static SampleAdapter.SL listener;
 
-	public SampleAdapter(Context context, List<String> items, SampleAdapter.OnClickListener listener){
+	public SampleAdapter(Context context, List<String> items, SampleAdapter.SL inListener){
 		super(context);
 		this.items = items;
-		this.listener = listener;
+		listener = inListener;
 	}
 
 	@Override
 	public int getItemCount(){ return items == null ? 0 : items.size();}
 
-	// this is to give views like X-Y-X-Y-X-Y or whatever pattern you choose
+	// may be used to alternate view types like: X-Y-X-Y-X-Y or to whatever pattern you choose
 	@Override
 	public int getItemViewType(int position){ return rowWithPic;}
 
@@ -51,24 +59,14 @@ public class SampleAdapter extends SupportAnnotatedAdapter
 
 		String str = items.get(position);
 		vh.text.setText(str);
-		vh.text.setOnClickListener(this);
-		vh.image.setOnClickListener(this);
 		vh.image.setImageResource(R.drawable.abc_btn_rating_star_off_mtrl_alpha);
-		vh.clickListener = listener;
-//		vh.getAdapterPosition();
+
+		vh.clickListener = new MyClickListener();
+		vh.itemView.setOnClickListener(vh.clickListener);
+		vh.clickListener.position = position;
 	}
 
-
-	@Override
-	public void onClick(final View v){
-		if(v instanceof ImageView){listener.onImageClick((ImageView) v);}
-		else if(v instanceof TextView){listener.onTextClick((TextView) v);}
+	public interface SL{
+		void p(int p);
 	}
-
-	public interface OnClickListener{
-		void onImageClick(ImageView v);
-		void onTextClick(TextView v);
-	}
-
-
 }

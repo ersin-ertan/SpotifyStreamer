@@ -18,10 +18,6 @@ public class ArtistListActivity extends FragmentActivity
 
 		if(findViewById(R.id.artist_detail_container) != null){
 			mTwoPane = true;
-
-			((ArtistListFragment) getSupportFragmentManager()
-					.findFragmentById(R.id.artist_list))
-					.setActivateOnItemClick(true);
 		}
 
 	}
