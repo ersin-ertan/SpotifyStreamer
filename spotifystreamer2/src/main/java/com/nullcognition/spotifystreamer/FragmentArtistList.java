@@ -56,8 +56,6 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 		adapter = new AdapterArtistList(getActivity(), Arrays.asList(dataset), this);
 		recyclerView.setAdapter(adapter);
 
-		Toast.makeText(getActivity(), "" + title, Toast.LENGTH_SHORT).show();
-
 		return rootView;
 	}
 
