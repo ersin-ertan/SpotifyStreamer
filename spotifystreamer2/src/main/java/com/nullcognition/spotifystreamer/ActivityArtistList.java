@@ -12,8 +12,11 @@ import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringSystem;
 
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import io.paperdb.Paper;
+import kaaes.spotify.webapi.android.models.Artist;
 import se.emilsjolander.intentbuilder.IntentBuilder;
 
 import static com.nullcognition.spotifystreamer.IntentServiceSpotifyDownloader.ACTION_SEARCH_ARTIST_NAME;
@@ -34,11 +37,11 @@ public class ActivityArtistList extends FragmentActivity
 		setContentView(R.layout.activity_artist_list);
 		if(findViewById(R.id.artist_detail_container) != null){mTwoPane = true;}
 
-		reboundInit();
+		initRebound();
 
 	}
 
-	private void reboundInit(){
+	private void initRebound(){
 
 		SpringSystem springSystem = SpringSystem.create();
 		final Spring spring = springSystem.createSpring();
@@ -73,8 +76,10 @@ public class ActivityArtistList extends FragmentActivity
 
 	@Override
 	public void positionClicked(final int position){
+		// known to be init
+		Paper.put(PaperProducts.ARTIST_ID, ((List<Artist>) Paper.get(PaperProducts.ARTIST_LIST)).get(position).id);
 		if(mTwoPane){
-			Fragment fragment = new FragmentArtistDetailBuilder().build(); // should this recyclerview be in an artist detail container to replace its own container on each click
+			Fragment fragment = new FragmentArtistDetailBuilder(true).build(); // should this recyclerview be in an artist detail container to replace its own container on each click
 			getSupportFragmentManager().beginTransaction()
 			                           .replace(R.id.artist_detail_container, fragment)
 			                           .commit();
@@ -86,10 +91,10 @@ public class ActivityArtistList extends FragmentActivity
 	}
 
 	private String lastSearch;
-	public void onEventMainThread(String searchedQuery){
+	public void onEventMainThread(IntentServiceSpotifyDownloader.SearchByArtistName searchedQuery){
 
-		if(!searchedQuery.equals(lastSearch)){ // stops multiple updates by eventbus
-			lastSearch = searchedQuery;
+		if(!searchedQuery.artistName.equals(lastSearch)){ // stops multiple updates by eventbus
+			lastSearch = searchedQuery.artistName;
 			((FragmentArtistList) getSupportFragmentManager().findFragmentById(R.id.fragment_artist_list))
 					.updateAdapter();
 		}

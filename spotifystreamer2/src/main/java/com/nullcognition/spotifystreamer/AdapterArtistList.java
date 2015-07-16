@@ -10,6 +10,7 @@ import com.hannesdorfmann.annotatedadapter.annotation.Field;
 import com.hannesdorfmann.annotatedadapter.annotation.ViewField;
 import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
 import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 import java.util.List;
 

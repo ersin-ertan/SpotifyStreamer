@@ -24,7 +24,7 @@ public class ActivityArtistDetail extends AppCompatActivity{
 		if(getSupportActionBar() != null){ getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
 		if(savedInstanceState == null){
-			Fragment fragment = new FragmentArtistDetailBuilder().build();
+			Fragment fragment = new FragmentArtistDetailBuilder(false).build();
 			getSupportFragmentManager().beginTransaction()
 			                           .add(R.id.artist_detail_container, fragment)
 			                           .commit();
