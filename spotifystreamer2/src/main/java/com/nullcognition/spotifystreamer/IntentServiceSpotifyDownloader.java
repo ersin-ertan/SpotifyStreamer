@@ -27,7 +27,6 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 
 	@Extra
 	public String searchAction;
-
 	@Extra
 	public String searchQuery;
 
@@ -49,7 +48,7 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 		if(intent != null){
 			initSpotify();
 			if(ACTION_SEARCH_ARTIST_NAME.equals(searchAction)){
-				checkForReapeatedSearch(searchQuery);
+				checkForRepeatedSearch(searchQuery);
 			}
 			else if(ACTION_SEARCH_ARTIST_TOP_TEN_TRACKS.equals(searchAction)){
 				searchArtistsTopTenTracks(searchQuery);
@@ -71,7 +70,7 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 		}
 	}
 
-	private void checkForReapeatedSearch(final String searchQuery){
+	private void checkForRepeatedSearch(final String searchQuery){
 		if(searchQuery != null){
 			if(!searchQuery.equals(Paper.get(PaperProducts.LAST_ARTIST_SEARCH, null))){
 				searchByArtistName(searchQuery);
@@ -97,7 +96,6 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 		NetworkInfo activeNetwork =
 				((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
 						.getActiveNetworkInfo();
-
 		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 	}
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -45,7 +46,9 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 
 		recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 		setRecyclerViewLayoutManager(recyclerView);
-		if(Paper.exist(PaperProducts.ARTIST_LIST)){updateAdapter();} // should this be here or onViewCreated
+		if(Paper.exist(PaperProducts.ARTIST_LIST)){
+			updateAdapter();
+		} // should this be here or onViewCreated
 
 		return rootView;
 	}
@@ -81,6 +84,9 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 			AdapterArtistList adapter = new AdapterArtistList(getActivity(), artistList, this);
 			// getView() will produce null if used before onCreateView
 			recyclerView.setAdapter(adapter);
+			if(adapter.getItemCount() == 0){
+				Toast.makeText(getActivity(), "No Results", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 }
