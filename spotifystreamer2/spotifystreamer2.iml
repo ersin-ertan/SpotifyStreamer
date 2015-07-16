@@ -74,6 +74,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.paperdb/paperdb/0.9/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/se.emilsjolander/intentbuilder-api/0.13.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
@@ -92,27 +93,42 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="icepick-3.0.2" level="project" />
-    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="annotation-2.1.2" level="project" />
+    <orderEntry type="library" exported="" name="icepick-3.0.2" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="icepick-processor-3.0.2" level="project" />
     <orderEntry type="library" exported="" name="intentbuilder-api-0.13.0" level="project" />
-    <orderEntry type="library" exported="" name="quoin-0.1.2" level="project" />
-    <orderEntry type="library" exported="" name="auto-service-1.0-rc2" level="project" />
-    <orderEntry type="library" exported="" name="support-recyclerview-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="spotify-web-api-android-0.1.0-" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="scout-0.1.0" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
+    <orderEntry type="library" exported="" name="asm-5.0.3" level="project" />
     <orderEntry type="library" exported="" name="data.priority-map-0.0.2" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="stencil-0.3.5" level="project" />
     <orderEntry type="library" exported="" name="slingshot-0.10.3" level="project" />
     <orderEntry type="library" exported="" name="auto-common-0.3" level="project" />
     <orderEntry type="library" exported="" name="annotation-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="rebound-0.3.8" level="project" />
-    <orderEntry type="library" exported="" name="clojure-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="reflectasm-1.10.1" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.4.0" level="project" />
+    <orderEntry type="library" exported="" name="objenesis-2.1" level="project" />
     <orderEntry type="library" exported="" name="core.cache-0.6.3" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.6.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="icepick-processor-3.0.2" level="project" />
+    <orderEntry type="library" exported="" name="quoin-0.1.2" level="project" />
+    <orderEntry type="library" exported="" name="kryo-serializers-0.30" level="project" />
+    <orderEntry type="library" exported="" name="auto-service-1.0-rc2" level="project" />
+    <orderEntry type="library" exported="" name="support-recyclerview-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="scout-0.1.0" level="project" />
+    <orderEntry type="library" exported="" name="minlog-1.3.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
+    <orderEntry type="library" exported="" name="stencil-0.3.5" level="project" />
+    <orderEntry type="library" exported="" name="protobuf-java-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="kryo-3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="clojure-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="paperdb-0.9" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.2.0" level="project" />
   </component>
 </module>

@@ -14,7 +14,7 @@
 
 
 	<fragment
-		android:id = "@+id/artist_list"
+		android:id = "@+id/fragment_artist_list"
 		android:layout_height = "match_parent"
 		android:layout_weight = "1"
 		android:layout_width = "0dp"

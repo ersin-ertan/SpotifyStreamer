@@ -5,12 +5,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hannesdorfmann.annotatedadapter.annotation.Field;
 import com.hannesdorfmann.annotatedadapter.annotation.ViewField;
 import com.hannesdorfmann.annotatedadapter.annotation.ViewType;
 import com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter;
 
 import java.util.List;
+
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Image;
 
 public class AdapterArtistList extends SupportAnnotatedAdapter
 		implements AdapterArtistListBinder{
@@ -35,11 +39,14 @@ public class AdapterArtistList extends SupportAnnotatedAdapter
 	)
 	public final int rowWithPic = 0;
 
-	List<String> items;
-	static RecyclerItemViewClick listener;
+	private List<Artist> items;
+	private Context context;
+	static public RecyclerItemViewClick listener;
 
-	public AdapterArtistList(Context context, List<String> items, RecyclerItemViewClick inListener){
+
+	public AdapterArtistList(Context context, List<Artist> items, RecyclerItemViewClick inListener){
 		super(context);
+		this.context = context;
 		this.items = items;
 		listener = inListener;
 	}
@@ -54,13 +61,28 @@ public class AdapterArtistList extends SupportAnnotatedAdapter
 	@Override
 	public void bindViewHolder(AdapterArtistListHolders.RowWithPicViewHolder vh, int position){
 
-		String str = items.get(position);
-		vh.text.setText(str);
-		vh.image.setImageResource(R.drawable.abc_btn_rating_star_on_mtrl_alpha);
+		Artist artist = items.get(position);
+		vh.text.setText(artist.name);
+		setImage(vh.image, artist.images);
 
 		vh.clickListener = new AdapterArtistList.MyClickListener();
 		vh.itemView.setOnClickListener(vh.clickListener);
 		vh.clickListener.position = position;
+	}
+	private void setImage(final ImageView imageView, final List<Image> images){
+		String[] imageUrl = new String[2];
+
+		if(!images.isEmpty()){
+			imageUrl[0] = images.get(0).url;
+			imageUrl[1] = images.get(images.size() - 1).url;
+		}
+		// may toggle with 0, or 1 from best to worst depending on network connectivity, Wi-fi vs 3/4/5G
+
+		Glide.with(context)
+		     .load(imageUrl[1])
+		     .error(android.R.drawable.star_big_on)
+		     .centerCrop()
+		     .into(imageView);
 	}
 
 	public interface RecyclerItemViewClick{
