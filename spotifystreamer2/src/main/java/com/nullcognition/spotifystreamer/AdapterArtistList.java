@@ -80,7 +80,7 @@ public class AdapterArtistList extends SupportAnnotatedAdapter
 		// may toggle with 0, or 1 from best to worst depending on network connectivity, Wi-fi vs 3/4/5G
 
 		Glide.with(context)
-		     .load(imageUrl[1])
+		     .load(imageUrl[0])
 		     .error(android.R.drawable.star_big_on)
 		     .centerCrop()
 		     .into(imageView);
