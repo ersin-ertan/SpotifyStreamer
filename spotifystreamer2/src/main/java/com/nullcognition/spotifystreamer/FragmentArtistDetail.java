@@ -1,8 +1,9 @@
 package com.nullcognition.spotifystreamer;// Created by ersin on 13/07/15
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.hannesdorfmann.fragmentargs.annotation.Arg;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import io.paperdb.Paper;
 import kaaes.spotify.webapi.android.models.Track;
 
@@ -23,27 +25,34 @@ import static com.nullcognition.spotifystreamer.IntentServiceSpotifyDownloader.A
 
 public class FragmentArtistDetail extends Fragment
 		implements AdapterArtistDetail.RecyclerItemViewClick{
-@Arg
-Boolean isTablet;
+	@Arg
+	Boolean isTablet;
 
 	protected RecyclerView recyclerView;
+	public static MediaPlayer mediaPlayer = new MediaPlayer();
 
 	public FragmentArtistDetail(){}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		EventBus.getDefault().register(this); // the updated artist id was never broadcast, forgot to register
 		FragmentArgs.inject(this);
+		String searchQuery = Paper.get(PaperProducts.ARTIST_ID);
 		IntentServiceSpotifyDownloader
-				.startService(ACTION_SEARCH_ARTIST_TOP_TEN_TRACKS, null, getActivity());
-		// searchquery will be inferred
-
+				.startService(ACTION_SEARCH_ARTIST_TOP_TEN_TRACKS, searchQuery, getActivity());
+		if(Paper.exist(PaperProducts.TRACK_LIST)){
+			updateAdapter();
+		}
 	}
 
 	@Override
 	public void positionClicked(final int position){
-		FragmentDialog fragment = new FragmentDialogBuilder(position).build();
-		fragment.show(getActivity().getFragmentManager(), "t");
+		if(FragmentDialog.position != position){
+			FragmentDialog.position = position;
+		}
+			FragmentDialog fragment = new FragmentDialogBuilder(position).build();
+			fragment.show(getActivity().getFragmentManager(), "t");
 	}
 
 	@Override
@@ -57,6 +66,11 @@ Boolean isTablet;
 		return rootView;
 	}
 
+	@Override
+	public void onDestroy(){
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
+	}
 	public void setRecyclerViewLayoutManager(final RecyclerView recyclerView){
 		int scrollPosition = 0;
 		if(recyclerView.getLayoutManager() != null){
@@ -83,19 +97,30 @@ Boolean isTablet;
 
 	private void setFragmentArtistListAdapter(final List<Track> tracks){
 		if(tracks != null){
-			AdapterArtistDetail adapter = new AdapterArtistDetail(getActivity(), tracks, this);
-			// getView() will produce null if used before onCreateView
-			recyclerView.setAdapter(adapter);
-			if(adapter.getItemCount() == 0){
-				Toast.makeText(getActivity(), "No Results", Toast.LENGTH_SHORT).show();
+			Context context = getActivity();
+			/*
+			* the context check prevents:
+			*  java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.Object android.content.Context.getSystemService(java.lang.String)' on a null object reference
+            at android.view.LayoutInflater.from(LayoutInflater.java:219)
+            at com.hannesdorfmann.annotatedadapter.support.recyclerview.SupportAnnotatedAdapter.<init>(SupportAnnotatedAdapter.java:23)
+            at com.nullcognition.spotifystreamer.AdapterArtistList.<init>(AdapterArtistList.java:49)
+			* */
+			if(context != null){
+				AdapterArtistDetail adapter = new AdapterArtistDetail(context, tracks, this);
+				// getView() will produce null if used before onCreateView
+				recyclerView.setAdapter(adapter);
+				if(adapter.getItemCount() == 0){
+					Toast.makeText(getActivity(), "No Results", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
 
-	private String lastSearch;
+	private String lastSearchedArtistId = null;
 	public void onEventMainThread(IntentServiceSpotifyDownloader.SearchArtistsTopTenTracks searchedQuery){
-		if(!searchedQuery.artistName.equals(lastSearch)){ // stops multiple updates by eventbus
-			lastSearch = searchedQuery.artistName;
+		String searchedArtistId = searchedQuery.artistid;
+		if(!searchedArtistId.equals(lastSearchedArtistId)){ // stops multiple updates by eventbus
+			lastSearchedArtistId = searchedArtistId;
 			updateAdapter();
 		}
 	}

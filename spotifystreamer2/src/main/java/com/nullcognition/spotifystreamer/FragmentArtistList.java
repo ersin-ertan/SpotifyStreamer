@@ -1,6 +1,7 @@
 package com.nullcognition.spotifystreamer;// Created by ersin on 14/07/15
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -81,11 +82,14 @@ public class FragmentArtistList extends Fragment // is only ever in a static lay
 
 	private void setFragmentArtistListAdapter(final List<Artist> artistList){
 		if(artistList != null){
-			AdapterArtistList adapter = new AdapterArtistList(getActivity(), artistList, this);
-			// getView() will produce null if used before onCreateView
-			recyclerView.setAdapter(adapter);
-			if(adapter.getItemCount() == 0){
-				Toast.makeText(getActivity(), "No Results", Toast.LENGTH_SHORT).show();
+			Context context = getActivity();
+			if(context != null){
+				AdapterArtistList adapter = new AdapterArtistList(context, artistList, this);
+				// getView() will produce null if used before onCreateView
+				recyclerView.setAdapter(adapter);
+				if(adapter.getItemCount() == 0){
+					Toast.makeText(getActivity(), "No Results", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}

@@ -12,15 +12,26 @@
 	xmlns:tools = "http://schemas.android.com/tools"
 	>
 
-
-	<fragment
-		android:id = "@+id/fragment_artist_list"
-		android:layout_height = "match_parent"
-		android:layout_weight = "1"
+	<LinearLayout
+		android:orientation = "vertical"
 		android:layout_width = "0dp"
-		android:name = "com.nullcognition.spotifystreamer.FragmentArtistList"
-		tools:layout = "@layout/recycler_view"
-		/>
+		android:layout_height = "match_parent"
+		android:layout_weight = "2"
+		>
+
+		<include layout = "@layout/search_bar" android:id = "@+id/include"
+			/>
+
+		<fragment
+			android:id = "@+id/fragment_artist_list"
+			android:layout_height = "match_parent"
+			android:layout_weight = "1"
+			android:layout_width = "match_parent"
+			android:name = "com.nullcognition.spotifystreamer.FragmentArtistList"
+			tools:layout = "@layout/recycler_view"
+			/>
+
+	</LinearLayout>
 
 	<FrameLayout
 		android:id = "@+id/artist_detail_container"

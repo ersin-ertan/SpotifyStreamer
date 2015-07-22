@@ -77,7 +77,8 @@ public class ActivityArtistList extends FragmentActivity
 	@Override
 	public void positionClicked(final int position){
 		// known to be init
-		Paper.put(PaperProducts.ARTIST_ID, ((List<Artist>) Paper.get(PaperProducts.ARTIST_LIST)).get(position).id);
+		String artistId = ((List<Artist>) Paper.get(PaperProducts.ARTIST_LIST)).get(position).id;
+		Paper.put(PaperProducts.ARTIST_ID, artistId);
 		if(mTwoPane){
 			Fragment fragment = new FragmentArtistDetailBuilder(true).build(); // should this recyclerview be in an artist detail container to replace its own container on each click
 			getSupportFragmentManager().beginTransaction()
@@ -100,4 +101,9 @@ public class ActivityArtistList extends FragmentActivity
 		}
 	}
 
+	@Override
+	protected void onDestroy(){
+		EventBus.getDefault().unregister(this);
+		super.onDestroy();
+	}
 }

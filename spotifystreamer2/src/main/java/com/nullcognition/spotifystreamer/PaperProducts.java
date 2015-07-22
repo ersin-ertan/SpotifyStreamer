@@ -7,4 +7,5 @@ public class PaperProducts{
 	public static final String TRACK_LIST = "tracksList";
 	public static final String LAST_TRACK_SEARCH = "lastTrackSearch";
 	public static final String ARTIST_ID = "artistId";
+	public static final String LAST_ARTIST_ID = "lastArtistId";
 }

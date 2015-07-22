@@ -10,13 +10,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import io.paperdb.Paper;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.Tracks;
 import se.emilsjolander.intentbuilder.Extra;
@@ -54,8 +52,7 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 				checkForRepeatedSearch(searchQuery, searchAction);
 			}
 			else if(ACTION_SEARCH_ARTIST_TOP_TEN_TRACKS.equals(searchAction)){
-				checkForRepeatedSearch(Paper.get(PaperProducts.LAST_ARTIST_SEARCH, "default"), searchAction);
-				// default needed for type inference
+				checkForRepeatedSearch(searchQuery, searchAction);
 			}
 		}
 	}
@@ -68,13 +65,14 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 				}
 			}
 			else if(ACTION_SEARCH_ARTIST_TOP_TEN_TRACKS.equals(searchAction)){
-				searchQuery = Paper.get(PaperProducts.LAST_ARTIST_SEARCH);
-				if(!searchQuery.equals(Paper.get(PaperProducts.LAST_TRACK_SEARCH, null))){
-					searchArtistsTopTenTracks(Paper.get(PaperProducts.ARTIST_ID, "default"));
+				String lastArtistId = Paper.get(PaperProducts.LAST_ARTIST_ID);
+				if(!searchQuery.equals(lastArtistId)){
+					searchArtistsTopTenTracks(searchQuery);
 				}
 			}
 		}
 	}
+
 
 	private void searchArtistsTopTenTracks(final String searchedArtistId){
 		if(searchedArtistId != null){
@@ -84,8 +82,8 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 
 				Tracks tracks = spotifyService.getArtistTopTrack(searchedArtistId, countryCode);
 				Paper.put(PaperProducts.TRACK_LIST, tracks.tracks);
-				Paper.put(PaperProducts.LAST_TRACK_SEARCH, searchQuery);
-				EventBus.getDefault().post(new SearchArtistsTopTenTracks(searchQuery));
+				Paper.put(PaperProducts.LAST_ARTIST_ID, searchedArtistId);
+				EventBus.getDefault().post(new SearchArtistsTopTenTracks(searchedArtistId));
 			}
 			catch(Exception e){ Log.e("logErr", "Retrofit return error value searchArtistTop10");}
 		}
@@ -125,7 +123,7 @@ public class IntentServiceSpotifyDownloader extends IntentService{
 	}
 
 	public static class SearchArtistsTopTenTracks{
-		protected SearchArtistsTopTenTracks(String artistName){this.artistName = artistName;}
-		public String artistName;
+		protected SearchArtistsTopTenTracks(String artistId){this.artistid = artistId;}
+		public String artistid;
 	}
 }
