@@ -1,5 +1,7 @@
 package com.nullcognition.spotifystreamer;// Created by ersin on 13/07/15
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -51,8 +53,8 @@ public class FragmentArtistDetail extends Fragment
 		if(FragmentDialog.position != position){
 			FragmentDialog.position = position;
 		}
-			FragmentDialog fragment = new FragmentDialogBuilder(position).build();
-			fragment.show(getActivity().getFragmentManager(), "t");
+		FragmentDialog fragment = new FragmentDialogBuilder(position).build();
+		fragment.show(getActivity().getFragmentManager(), "t");
 	}
 
 	@Override
@@ -64,6 +66,20 @@ public class FragmentArtistDetail extends Fragment
 		setRecyclerViewLayoutManager(recyclerView);
 
 		return rootView;
+	}
+public interface SubtitleListener{
+	void changeSubtitle();
+}
+	SubtitleListener listener;
+
+	@Override
+	public void onAttach(final Activity activity){
+		super.onAttach(activity);
+		super.onAttach(activity);
+		if(!(activity instanceof SubtitleListener)){
+			throw new IllegalStateException("Activity must implement fragment's callbacks.");
+		}
+		listener = (SubtitleListener) activity;
 	}
 
 	@Override
@@ -92,6 +108,7 @@ public class FragmentArtistDetail extends Fragment
 		protected void onPostExecute(final List<Track> tracks){
 			super.onPostExecute(tracks);
 			setFragmentArtistListAdapter(tracks);
+			listener.changeSubtitle();
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.nullcognition.spotifystreamer;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,11 +8,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import java.util.List;
+
+import io.paperdb.Paper;
+import kaaes.spotify.webapi.android.models.Track;
 import se.emilsjolander.intentbuilder.IntentBuilder;
 
 
 @IntentBuilder
-public class ActivityArtistDetail extends AppCompatActivity{
+public class ActivityArtistDetail extends AppCompatActivity implements FragmentArtistDetail.SubtitleListener{
 
 	// @Extra String s; add @Nullable if you want it in the separate builder method
 	@Override
@@ -39,5 +44,16 @@ public class ActivityArtistDetail extends AppCompatActivity{
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	@Override
+	public void changeSubtitle(){
+
+		android.support.v7.app.ActionBar ab = getSupportActionBar();
+		if(ab != null){
+			List<Track> tracks1 = ((List<Track>) Paper.get(PaperProducts.TRACK_LIST));
+			if(!tracks1.isEmpty()){
+				ab.setSubtitle(tracks1.get(0).artists.get(0).name);
+			}
+		}
 	}
 }

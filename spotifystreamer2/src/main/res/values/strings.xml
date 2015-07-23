@@ -1,5 +1,5 @@
 <resources>
 	<string name = "app_name">SpotifyStreamer</string>
 	<string name = "title_artist_list">Artists</string>
-	<string name = "title_artist_detail">Artist Detail</string>
+	<string name = "title_artist_detail">Top 10</string>
 </resources>

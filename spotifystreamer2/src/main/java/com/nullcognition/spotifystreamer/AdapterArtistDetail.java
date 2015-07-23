@@ -62,7 +62,7 @@ public class AdapterArtistDetail extends SupportAnnotatedAdapter
 	public void bindViewHolder(AdapterArtistDetailHolders.RowWithPicViewHolder vh, int position){
 
 		Track track = items.get(position);
-		vh.text.setText(track.name);
+		vh.text.setText(track.album.name+"\n"+track.name);
 		setImage(vh.image, track.album.images);
 
 		vh.clickListener = new AdapterArtistDetail.MyClickListener();

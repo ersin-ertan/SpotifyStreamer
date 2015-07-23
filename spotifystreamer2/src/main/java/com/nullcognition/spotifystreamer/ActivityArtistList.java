@@ -1,5 +1,6 @@
 package com.nullcognition.spotifystreamer;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import io.paperdb.Paper;
 import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Track;
 import se.emilsjolander.intentbuilder.IntentBuilder;
 
 import static com.nullcognition.spotifystreamer.IntentServiceSpotifyDownloader.ACTION_SEARCH_ARTIST_NAME;
@@ -24,7 +26,8 @@ import static com.nullcognition.spotifystreamer.IntentServiceSpotifyDownloader.A
 
 @IntentBuilder
 public class ActivityArtistList extends FragmentActivity
-		implements FragmentArtistList.OnRecyclerViewItemClick{
+		implements FragmentArtistList.OnRecyclerViewItemClick,
+		           FragmentArtistDetail.SubtitleListener{
 
 	private static boolean mTwoPane;
 
@@ -105,5 +108,17 @@ public class ActivityArtistList extends FragmentActivity
 	protected void onDestroy(){
 		EventBus.getDefault().unregister(this);
 		super.onDestroy();
+	}
+
+	@Override
+	public void changeSubtitle(){
+
+		ActionBar ab = getActionBar();
+		if(ab != null){
+			List<Track> tracks1 = ((List<Track>) Paper.get(PaperProducts.TRACK_LIST));
+			if(!tracks1.isEmpty()){
+				ab.setSubtitle(tracks1.get(0).artists.get(0).name);
+			}
+		}
 	}
 }
